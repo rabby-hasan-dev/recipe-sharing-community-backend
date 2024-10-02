@@ -4,6 +4,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 
 import { AdminServices } from './admin.service';
+import { USER_ROLE } from '../../constant';
 
 
 
@@ -37,6 +38,19 @@ const blockUser = catchAsync(async (req, res) => {
   });
 });
 
+const createAdmin = catchAsync(async (req, res) => {
+  const { userId, role } = req.body;
+  const result = await AdminServices.createAdminIntoDB(userId, role);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `${role === USER_ROLE.admin ? "Admin" : "user"} is created succesfully`,
+    data: result,
+  });
+});
+
+
 
 const deleteUser = catchAsync(async (req, res) => {
   const { userId } = req.params;
@@ -50,8 +64,23 @@ const deleteUser = catchAsync(async (req, res) => {
   });
 });
 
+const publishRecipe = catchAsync(async (req, res) => {
+  const id = req.body.id;
+  const result = await AdminServices.deleteUserFromDB(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'publish Recipe  succesfully',
+    data: result,
+  });
+});
+
+
 export const AdminControllers = {
   getAllUsers,
   deleteUser,
-  blockUser
+  blockUser,
+  createAdmin,
+  publishRecipe
 };

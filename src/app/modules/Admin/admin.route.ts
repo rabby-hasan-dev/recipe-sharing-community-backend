@@ -7,6 +7,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import { AdminValidation } from './admin.validation';
 
 
+
 const router = express.Router();
 
 router.get('/users',
@@ -19,8 +20,9 @@ router.put('/users/:userId/block',
 router.delete('/users/:userId',
     auth(USER_ROLE.admin || USER_ROLE.superAdmin),
     AdminControllers.deleteUser);
-// router.put('/recipes/:recipeId/publish', publishRecipe);
-// router.delete('/recipes/:recipeId', deleteRecipeAdmin);
+router.post('/create-admin', auth(USER_ROLE.admin), AdminControllers.createAdmin);
+router.put('/recipes//publish', auth(USER_ROLE.admin), AdminControllers.publishRecipe);
+
 
 
 

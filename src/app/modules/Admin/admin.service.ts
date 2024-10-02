@@ -5,8 +5,7 @@ import AppError from '../../errors/AppError';
 import { User } from '../User/user.model';
 import { UserSearchableFields, UserStatus } from '../User/user.constant';
 import { TUserStatus } from './admin.interface';
-
-
+import { Recipe } from '../Recipe/recipe.model';
 
 
 
@@ -58,6 +57,46 @@ const blockUserIntoDB = async (userId: string, updateStatus: TUserStatus) => {
 
 
 };
+
+
+
+const createAdminIntoDB = async (id: string, role: string) => {
+    const createAdmin = await User.findByIdAndUpdate(id,
+        { role: role },
+        { new: true }
+    );
+    return createAdmin;
+};
+
+
+
+
+const publishRecipeIntoDB = async (id: string) => {
+
+    const recipe = await Recipe.findById(id);
+
+    // If the recipe exists, toggle the isPublished field
+    if (recipe) {
+        const publishRecipe = await Recipe.findByIdAndUpdate(
+            id,
+            { isPublished: !recipe.isPublished }, // Toggle the current value
+            { new: true }
+
+        );
+        return publishRecipe;
+    } else {
+        throw new Error('Recipe not found');
+    }
+
+
+
+};
+
+
+
+
+
+
 //  Do it After some minuite Better approch
 
 const deleteUserFromDB = async (userId: string) => {
@@ -84,9 +123,10 @@ const deleteUserFromDB = async (userId: string) => {
 
 
 export const AdminServices = {
-
+    createAdminIntoDB,
     getAllUsersFromDB,
     getSingleUserFromDB,
     deleteUserFromDB,
     blockUserIntoDB,
+    publishRecipeIntoDB,
 };
