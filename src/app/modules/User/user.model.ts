@@ -2,8 +2,8 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
-import { TUser, TUserName, UserModel } from './user.interface';
-import { UserRole, UserStatus } from './user.constant';
+import { TUser, TUserName, UserModel, UserRoleEnum, UserStatusEnum } from './user.interface';
+// import { UserRole, UserStatus } from './user.constant';
 
 
 const userNameSchema = new Schema<TUserName>({
@@ -56,8 +56,8 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: String,
-      enum: UserRole,
-      default: UserRole.USER,
+      enum: UserRoleEnum,
+      default: UserRoleEnum.USER,
       required: true,
     },
     isVerified: {
@@ -66,8 +66,8 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     status: {
       type: String,
-      enum: UserStatus,
-      default: UserStatus.IN_PROGRESS,
+      enum: UserStatusEnum,
+      default: UserStatusEnum.IN_PROGRESS,
     },
     profilePicture: {
       type: String, // URL for the profile picture

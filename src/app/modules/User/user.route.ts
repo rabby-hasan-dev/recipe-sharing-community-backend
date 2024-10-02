@@ -7,8 +7,8 @@ import { UserControllers } from './user.controller';
 
 const router = express.Router();
 
-router.get('/me', auth(USER_ROLE.user), UserControllers.getMyProfile);
-router.put('/me', auth(USER_ROLE.user),
+router.get('/me', auth(USER_ROLE.user || USER_ROLE.admin), UserControllers.getMyProfile);
+router.put('/me', auth(USER_ROLE.user || USER_ROLE.admin),
     // validateRequest(updateUserValidationSchema),
     UserControllers.UpdateMyProfile);
 router.get('/:userId', UserControllers.getSingleUser);

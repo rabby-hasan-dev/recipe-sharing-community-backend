@@ -1,7 +1,19 @@
 
 import { Model, Types } from 'mongoose';
 import { USER_ROLE } from '../../constant';
-import { UserRole, UserStatus } from './user.constant';
+
+export enum UserRoleEnum {
+  SUPER_ADMIN = 'superAdmin',
+  ADMIN = 'admin',
+  USER = 'user',
+}
+
+export enum UserStatusEnum {
+  ACTIVE = 'active',
+  IN_PROGRESS = 'in-progress',
+  BLOCKED = 'blocked',
+}
+
 
 export type TUserName = {
   firstName: string;

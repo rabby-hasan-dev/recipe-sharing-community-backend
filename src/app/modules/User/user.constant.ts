@@ -1,15 +1,13 @@
 
-export enum UserRole {
-    SUPER_ADMIN = 'superAdmin',
-    ADMIN = 'admin',
-    USER = 'user',
-}
 
-export enum UserStatus {
-    ACTIVE = 'active',
-    IN_PROGRESS = 'in-progress',
-    BLOCKED = 'blocked',
-}
+
+export const UserStatus = {
+    ACTIVE: 'active',
+    IN_PROGRESS: 'in-progress',
+    BLOCKED: 'blocked',
+} as const;
+
+
 
 export const UserSearchableFields = [
     'email',
