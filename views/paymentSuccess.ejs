@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <!-- <link rel="stylesheet" href="/public/styles.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .success-title {
+            color: green;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 50%;
+            height: 50%;
+        }
+
+        .history-title {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .transaction-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .transaction-table .label {
+            background-color: #add8e6;
+            font-weight: bold;
+        }
+
+        .btn-container{
+            margin-top: 40px;
+        }
+
+        .home-btn {
+            padding: 8px;
+            background-color: #add8e6;
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container">
+        <h1 class="success-title">Payment Successfull</h1>
+        <img src="https://i.ibb.co/tbqFkjc/brand-Logo.png" alt="Logo" class="logo">
+        <h2 class="history-title">Transaction History</h2>
+        <table class="transaction-table">
+            <tr>
+                <td class="label">Consumer Name:</td>
+                <td>
+                    <%=consumerName %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Consumer Email</td>
+                <td>
+                    <%= email %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Phone No</td>
+                <td>
+                    <%= phone %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Merchant Transaction Id:</td>
+                <td>
+                    <%= transactionId %>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label">Payment Status</td>
+                <td>
+                    <%= paymentStatus %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Total Amount</td>
+                <td>
+                    <%= amount %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Amount Currency</td>
+                <td>
+                    <%= currency %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Payment Type</td>
+                <td>
+                    <%= payment_type %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Pay Time</td>
+                <td>
+                    <%= payTime %>
+                </td>
+            </tr>
+        </table>
+
+        <div class="btn-container">
+            <a class="home-btn" href="https://sports-facility-bookings-plartform.netlify.app">Go Home</a>
+        </div>
+
+    </div>
+</body>
+
+</html>
