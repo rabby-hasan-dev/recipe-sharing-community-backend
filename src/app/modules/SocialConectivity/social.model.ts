@@ -59,16 +59,11 @@ const voteSchema = new Schema<IVote>({
         ref: 'Recipe',
         required: true
     },
-    upVote: {
+    value: {
         type: Number,
-        default: 0,
-        required: true
+        required: true,
+        enum: [1, -1], // 1 for upvote, -1 for downvote
     },
-    downVote: {
-        type: Number,
-        default: 0,
-        required: true
-    }
 }, {
     timestamps: true
 });

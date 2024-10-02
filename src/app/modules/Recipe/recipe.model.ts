@@ -79,6 +79,7 @@ const RecipeSchema = new Schema<IRecipe, RecipeModel>(
       //   },
       // },
     ],
+    commentCount: { type: Number, default: 0 },
     isPremium: {
       type: Boolean,
       default: false, // Indicates if the recipe is premium content

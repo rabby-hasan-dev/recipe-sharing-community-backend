@@ -17,8 +17,6 @@ export interface IComment {
 export interface IVote {
     user: Types.ObjectId;
     recipeId: Types.ObjectId;
-    upVote: number;
-    downVote: number;
-    createdAt?: Date;
-    updatedAt?: Date;
+    value: number;
+
 }

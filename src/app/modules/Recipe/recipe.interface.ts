@@ -21,6 +21,7 @@ export interface IRecipe {
     comment: string;
     createdAt: Date;
   }[];
+  commentCount?: number;
   isPremium: boolean;
   isPublished: boolean;
   isDeleted: boolean;

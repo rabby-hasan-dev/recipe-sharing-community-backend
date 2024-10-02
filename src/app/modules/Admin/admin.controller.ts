@@ -65,8 +65,8 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 const publishRecipe = catchAsync(async (req, res) => {
-  const id = req.body.id;
-  const result = await AdminServices.deleteUserFromDB(userId);
+  const recipeId = req.body.id;
+  const result = await AdminServices.deleteUserFromDB(recipeId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -80,10 +80,11 @@ const getRecipeComment = catchAsync(async (req, res) => {
 });
 
 const editeRecipeComment = catchAsync(async (req, res) => {
-  const { recipeId, commentId } = req.params;
+  const { userId } = req.user;
+  const { commentId } = req.params;
   const { comment } = req.body
 
-  const result = await SocailConectivityServices.editRecipeCommentFromDB(recipeId, commentId, comment);
+  const result = await SocailConectivityServices.editRecipeCommentFromDB(userId, commentId, comment);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -109,32 +110,23 @@ const deleteRecipeComment = catchAsync(async (req, res) => {
 
 // -------------- Vote Recpe section ---------
 
-const upvoteRecipe = catchAsync(async (req, res) => {
+const toggleVoteRecipe = catchAsync(async (req, res) => {
   const { recipeId } = req.params;
   const currentUserId = req?.user?.userId;
+  const voteType = req?.body?.type;
 
-  const result = await SocailConectivityServices.upvoteRecipeIntoDB(recipeId, currentUserId);
+
+  const result = await SocailConectivityServices.toggleVote(recipeId, currentUserId, voteType);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'upvote succesfully',
+    message: 'Vote Recipe succesfully',
     data: result,
   });
 });
 
-const downvoteRecipe = catchAsync(async (req, res) => {
-  const { recipeId } = req.params;
-  const currentUserId = req?.user?.userId;
-  const result = await SocailConectivityServices.downvoteRecipeIntoDB(recipeId, currentUserId);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'dwon vote succesfully',
-    data: result,
-  });
-});
 
 const getvotes = catchAsync(async (req, res) => {
   const { recipeId } = req.params;
@@ -158,7 +150,6 @@ export const SocailConectivityControllers = {
   getRecipeComment,
   editeRecipeComment,
   deleteRecipeComment,
-  upvoteRecipe,
-  downvoteRecipe,
+  toggleVoteRecipe,
   getvotes
 };

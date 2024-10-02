@@ -6,6 +6,7 @@ import { FollowRoutes } from '../modules/Follow/follow.route';
 import { PremiumRoutes } from '../modules/Premium/premium.route';
 import { paymentRoutes } from '../modules/payment/payment.route';
 import { RecipeRoutes } from '../modules/Recipe/recipe.route';
+import { SocailConectivityRoutes } from '../modules/SocialConectivity/social.route';
 
 const router = Router();
 
@@ -37,6 +38,10 @@ const moduleRoutes = [
   {
     path: '/recipes',
     route: RecipeRoutes,
+  },
+  {
+    path: '/social-conectivity',
+    route: SocailConectivityRoutes,
   },
 ];
 

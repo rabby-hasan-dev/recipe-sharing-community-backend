@@ -10,6 +10,10 @@ import { User } from "../User/user.model";
 // -------------- Rate Recpe section ---------
 const rateRecipeIntoDB = async (currentUserId: string, recipeId: string, rating: any) => {
 
+  if (rating < 1 || rating > 5) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Rating should be between 1 and 5!');
+  }
+
   const userExists = await User.isUserExists(currentUserId);
 
 
@@ -36,12 +40,15 @@ const rateRecipeIntoDB = async (currentUserId: string, recipeId: string, rating:
 
 };
 
+
 const getRecipeRatingsFromDB = async (recipeId: string) => {
 
   const ratings = await Rating.find({ recipeId }).populate('userId').populate('recipeId');
   return ratings;
 
 };
+
+
 
 const getAvarageRecipeRatingsFromDB = async (recipeId: string) => {
   const averageRating = await Rating.aggregate([
@@ -53,8 +60,13 @@ const getAvarageRecipeRatingsFromDB = async (recipeId: string) => {
   return { averageRating: averageRating[0]?.averageRating || 0 }
 
 };
+
+
+
+
 // -------------- Comment Recpe section ---------
 const postRecipeCommentIntoDB = async (currentUserId: string, recipeId: string, comment: any) => {
+
 
   const userExists = await User.isUserExists(currentUserId);
 
@@ -69,6 +81,18 @@ const postRecipeCommentIntoDB = async (currentUserId: string, recipeId: string, 
 
   await Recipe.findByIdAndUpdate(recipeId, { $push: { comments: savedComment._id } });
 
+
+  // Update the Recipe with the new comment and increment the commentCount
+  await Recipe.findByIdAndUpdate(
+    recipeId,
+    {
+      $push: { comments: savedComment._id },
+      $inc: { commentCount: 1 }, // Increment the comment count
+    },
+    { new: true }
+  );
+
+
   return savedComment;
 
 
@@ -76,17 +100,18 @@ const postRecipeCommentIntoDB = async (currentUserId: string, recipeId: string, 
 };
 
 const getRecipeCommentFromDB = async (recipeId: string) => {
-  const comments = await Comment.find({ recipeId }).populate('userId').populate('recipeId');
+
+  const comments = await Comment.find({ recipeId }).populate('userId').populate('recipeId').sort({ createdAt: -1 });;
   return comments;
 };
 
 
-const editRecipeCommentFromDB = async (recipeId: string, commentId: string, content: any) => {
+const editRecipeCommentFromDB = async (userId: string, commentId: string, content: any) => {
 
-  const findRecipeinComment = await Comment.findOne({ recipeId });
+  const comment = await Comment.findOne({ _id: commentId, userId });
 
-  if (!findRecipeinComment) {
-    throw new Error("Recipe Comment not exists in this recipe")
+  if (!comment) {
+    throw new Error("Comment not found or you are not authorized to edit this comment")
   }
   const updateComment = await Comment.findByIdAndUpdate(commentId, { comment: content }, { new: true });
 
@@ -104,135 +129,51 @@ const deleteRecipeCommentFromDB = async (recipeId: string, commentId: string,) =
 
 };
 
+
+
+
+
 // -------------- Vote Recpe section ---------
 
-const upvoteRecipeIntoDB = async (recipeId: string, currentUserId: string) => {
 
-  const userExists = await User.isUserExists(currentUserId);
+const toggleVote = async (recipeId: string, userId: string, type: 'upvote' | 'downvote') => {
+  const userExists = await User.isUserExists(userId);
+  if (!userExists) throw new AppError(httpStatus.UNAUTHORIZED, 'User not found!');
 
-  if (!userExists) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'User not found!')
-  }
+  const recipe = await Recipe.findById(recipeId);
+  if (!recipe) throw new AppError(httpStatus.NOT_FOUND, 'Recipe not found!');
 
-  // Check if the user has already voted on this recipe
-  let vote = await Vote.findOne({ user: currentUserId, recipeId });
-
-  let recipe = await Recipe.findById(recipeId);
-
-  if (!recipe) {
-    return { message: "Recipe not found" }
-  }
+  // Find or create vote
+  let vote = await Vote.findOne({ user: userId, recipeId });
 
   if (vote) {
-    if (vote.upVote === 1) {
-      // If already upvoted, remove the upvote (unvote)
-      vote.upVote = 0;
-      await vote.save();
-
-      recipe.upVoteCount -= 1; // Decrease the upvote count in recipe
+    if ((type === 'upvote' && vote.value === 1) || (type === 'downvote' && vote.value === -1)) {
+      // Remove vote (unvote)
+      await Vote.deleteOne({ user: userId, recipeId });
+      type === 'upvote' ? recipe.upVoteCount-- : recipe.downVoteCount--;
       await recipe.save();
-
-      return { message: "Upvote removed" };
+      return { message: `${type} removed` };
     } else {
-      // If downvoted before, switch to upvote
-      vote.upVote = 1;
-      vote.downVote = 0;
+      // Switch vote
+      vote.value = type === 'upvote' ? 1 : -1;
       await vote.save();
-
-      recipe.upVoteCount += 1;
-      recipe.downVoteCount -= 1; // Decrease downvote count and increase upvote count
+      recipe[type === 'upvote' ? 'upVoteCount' : 'downVoteCount']++;
+      recipe[type === 'downvote' ? 'upVoteCount' : 'downVoteCount']--;
       await recipe.save();
-
-      return { message: "Upvoted successfully" };
+      return { message: `${type} toggled` };
     }
   } else {
-    // If no vote exists, create a new upvote
-    vote = new Vote({ user: currentUserId, recipeId, upVote: 1, downVote: 0 });
+    // Create a new vote
+    vote = new Vote({ user: userId, recipeId, value: type === 'upvote' ? 1 : -1 });
     await vote.save();
-
-    recipe.upVoteCount += 1;
+    type === 'upvote' ? recipe.upVoteCount++ : recipe.downVoteCount++;
     await recipe.save();
-
-    return { message: "Upvoted successfully" }
+    return { message: `${type} added` };
   }
-
-}
-
-
-
-
-const downvoteRecipeIntoDB = async (recipeId: string, currentUserId: string) => {
-
-  const userExists = await User.isUserExists(currentUserId);
-
-  if (!userExists) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'User not found!')
-  }
-
-  let vote = await Vote.findOne({ user: currentUserId, recipeId });
-  let recipe = await Recipe.findById(recipeId);
-
-  if (!recipe) {
-    return { message: "Recipe not found" };
-  }
-
-  if (vote) {
-    if (vote.downVote === 1) {
-      // If already downvoted, remove the downvote (unvote)
-      vote.downVote = 0;
-      await vote.save();
-
-      recipe.downVoteCount -= 1;
-      await recipe.save();
-
-      return { message: "Downvote removed" };
-    } else {
-      // If upvoted before, switch to downvote
-      vote.downVote = 1;
-      vote.upVote = 0;
-      await vote.save();
-
-      recipe.downVoteCount += 1;
-      recipe.upVoteCount -= 1;
-      await recipe.save();
-
-      return { message: "Downvoted successfully" };
-    }
-  } else {
-
-    // If no vote exists, create a new downvote
-    vote = new Vote({ user: currentUserId, recipeId, upVote: 0, downVote: 1 });
-    await vote.save();
-    recipe.downVoteCount += 1;
-    await recipe.save();
-
-    return { message: "Downvoted successfully" };
-  }
-
-
 };
 
-const getvotesFromDB = async (recipeId: string) => {
-
-  const recipe = await Recipe.findById(recipeId).lean();
-  const votes = await Vote.aggregate([
-    { $match: { recipeId: new Types.ObjectId(recipeId) } },
-    {
-      $group: {
-        _id: "$recipeId",
-        totalUpVotes: { $sum: "$upVote" },
-        totalDownVotes: { $sum: "$downVote" }
-      }
-    }
-  ]);
-
-  recipe!.upVoteCount = votes[0]?.totalUpVotes || 0;
-  recipe!.downVoteCount = votes[0]?.totalDownVotes || 0;
-
-  return recipe;
 
 
-};
 
 export const SocailConectivityServices = {
   rateRecipeIntoDB,
@@ -242,8 +183,7 @@ export const SocailConectivityServices = {
   getRecipeCommentFromDB,
   editRecipeCommentFromDB,
   deleteRecipeCommentFromDB,
-  upvoteRecipeIntoDB,
-  downvoteRecipeIntoDB,
-  getvotesFromDB
+  toggleVote,
+
 
 };
