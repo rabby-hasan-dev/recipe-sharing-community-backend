@@ -30,9 +30,9 @@ export interface TUser {
   password: string;
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
-  role: UserRole;
+  role: UserRoleEnum;
   isVerified: boolean;
-  status: UserStatus;
+  status: UserStatusEnum;
   profilePicture?: string;
   bio?: string;
   followers?: Types.ObjectId[];
