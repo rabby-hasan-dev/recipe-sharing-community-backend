@@ -11,3 +11,9 @@ export enum UserStatus {
     BLOCKED = 'blocked',
 }
 
+export const UserSearchableFields = [
+    'email',
+    'name.firstName',
+    'name.lastName',
+    'presentAddress',
+];

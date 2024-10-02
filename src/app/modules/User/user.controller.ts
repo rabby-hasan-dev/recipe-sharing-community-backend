@@ -1,38 +1,82 @@
+import { RequestHandler } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { UserRegisterServices } from './user.service';
-
-const createUser = catchAsync(async (req, res) => {
-  const data = req.body;
-  const file = req.file;
-
-  const result = await UserRegisterServices.createUserIntoDB(file!, data);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User is created succesfully',
-    data: result,
-  });
-});
-
-const createAdmin = catchAsync(async (req, res) => {
-  const data = req.body;
-  const file = req.file;
+import { UserServices } from './user.service';
 
 
-  const result = await UserRegisterServices.createAdminIntoDB(file!, data);
+
+
+const getMyProfile = catchAsync(async (req, res) => {
+  const { email, role } = req.user;
+  const result = await UserServices.getMyProfileIntoDB(email, role);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Admin is created succesfully',
+    message: 'My Update succesfully',
     data: result,
   });
 });
 
-export const UserRegisterControllers = {
-  createUser,
-  createAdmin,
+
+const UpdateMyProfile = catchAsync(async (req, res) => {
+  const user = req.user;
+  const payload = req.body;
+  const result = await UserServices.updateUserDataIntoDB(user, payload);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My Profile Get succesfully',
+    data: result,
+  });
+});
+
+
+const getSingleUser = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const result = await UserServices.getSingleUserFromDB(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User is retrieved succesfully',
+    data: result,
+  });
+});
+
+
+const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
+  const result = await UserServices.getAllUsersFromDB(req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User are retrieved succesfully',
+    meta: result.meta,
+    data: result.result,
+  });
+});
+
+
+
+const deleteUser = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const result = await UserServices.deleteUserFromDB(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User is deleted succesfully',
+    data: result,
+  });
+});
+
+export const UserControllers = {
+  UpdateMyProfile,
+  getMyProfile,
+  getAllUsers,
+  getSingleUser,
+  deleteUser,
 };
