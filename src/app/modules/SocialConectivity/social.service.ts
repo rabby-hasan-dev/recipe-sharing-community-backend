@@ -32,7 +32,7 @@ const rateAndCalculateAverage = async (currentUserId: string, recipeId: string, 
       existingRating.rating = ratingValue;
       await existingRating.save({ session });
     } else {
-      const newRating = await Rating.create([{ recipeId, userId: currentUserId, rating: ratingValue }], { session });
+      await Rating.create([{ recipeId, userId: currentUserId, rating: ratingValue }], { session });
       // await Recipe.findByIdAndUpdate(recipeId, { $push: { ratings: newRating._id } }, { session });
     }
 
@@ -72,7 +72,6 @@ const getRecipeRatingsFromDB = async (recipeId: string) => {
 
 
 
-
 // -------------- Comment Recpe section ---------
 const postRecipeCommentIntoDB = async (currentUserId: string, recipeId: string, comment: any) => {
 
@@ -82,38 +81,59 @@ const postRecipeCommentIntoDB = async (currentUserId: string, recipeId: string, 
   if (!userExists) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'User not found!')
   }
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  const newComment = { recipeId, userId: currentUserId, comment, }
+  try {
 
-
-  const savedComment = await Comment.create(newComment);
-
-  await Recipe.findByIdAndUpdate(recipeId, { $push: { comments: savedComment._id } });
-
-
-  // Update the Recipe with the new comment and increment the commentCount
-  await Recipe.findByIdAndUpdate(
-    recipeId,
-    {
-      $push: { comments: savedComment._id },
-      $inc: { commentCount: 1 }, // Increment the comment count
-    },
-    { new: true }
-  );
+    const newComment = { recipeId, userId: currentUserId, comment, }
+    const savedComment = await Comment.create([newComment], { session });
 
 
-  return savedComment;
+    // Check if the Recipe exists
+    const recipe = await Recipe.findById(recipeId).session(session); // Ensure session is used for the query
+    if (!recipe) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Recipe not found!');
+    }
+
+    // Update the Recipe with the new comment and increment the commentCount
+    await Recipe.findByIdAndUpdate(
+      recipeId,
+      {
+        // $push: { comments: savedComment[0]._id },
+        $inc: { totalComment: 1 }, // Increment the totalcomment 
+      },
+      { new: true, session },
+
+    );
+
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return savedComment;
+
+
+
+  } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to submit comment!');
+  }
+
+
 
 
 
 };
 
 const getRecipeCommentFromDB = async (recipeId: string) => {
+  return await Comment.find({ recipeId })
+    .populate('userId')
+    .populate('recipeId')
+    .sort({ createdAt: -1 });
 
-  const comments = await Comment.find({ recipeId }).populate('userId').populate('recipeId').sort({ createdAt: -1 });;
-  return comments;
 };
-
 
 const editRecipeCommentFromDB = async (userId: string, commentId: string, content: any) => {
 
@@ -128,15 +148,38 @@ const editRecipeCommentFromDB = async (userId: string, commentId: string, conten
 
 
 };
+
 const deleteRecipeCommentFromDB = async (recipeId: string, commentId: string,) => {
 
-  // 
-  await Comment.findByIdAndDelete(commentId);
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    await Comment.findByIdAndDelete(commentId, { session });
 
-  await Recipe.findByIdAndUpdate(recipeId, { $pull: { comments: commentId } });
+    // Check if the Recipe exists
+    const recipe = await Recipe.findById(recipeId).session(session); // Ensure session is used for the query
+    if (!recipe) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Recipe not found!');
+    }
 
+    await Recipe.findByIdAndUpdate(recipeId,
+      {
+        // $pull: { comments: commentId },
+        $inc: { totalComment: -1 }  //  decrement total comment count
+      }, { session });
+
+    await session.commitTransaction();
+    session.endSession();
+
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to submit comment deletion!');
+  }
 
 };
+
+
 
 
 

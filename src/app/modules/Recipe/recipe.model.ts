@@ -34,7 +34,7 @@ const RecipeSchema = new Schema<IRecipe, RecipeModel>(
     ratings: [{
       type: Schema.Types.ObjectId,
       ref: 'Rating',  // Reference to the Rating model
-    },],
+    }],
     totalRatings: {
       type: Number,
       default: 0, // Auto-calculated average of ratings
@@ -46,8 +46,11 @@ const RecipeSchema = new Schema<IRecipe, RecipeModel>(
 
     upVoteCount: { type: Number, default: 0 },
     downVoteCount: { type: Number, default: 0 },
-    comments: [],
-    commentCount: { type: Number, default: 0 },
+    comments: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Rating',  // Reference to the Rating model
+    }],
+    totalComment: { type: Number, default: 0 },
     isPremium: {
       type: Boolean,
       default: false, // Indicates if the recipe is premium content
