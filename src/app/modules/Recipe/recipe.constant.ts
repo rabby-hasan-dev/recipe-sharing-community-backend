@@ -1,4 +1,10 @@
-export const UseSearchableFields = [
+
+
+export const recipeSearchableFields = [
     "description",
-    "title"
+    "title",
+    "ingredients", "cookingTime"
 ];
+
+
+

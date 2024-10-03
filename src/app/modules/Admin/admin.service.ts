@@ -37,7 +37,6 @@ const getAllUsersFromDB = async (query: Record<string, unknown>) => {
 const blockUserIntoDB = async (userId: string, updateStatus: TUserStatus) => {
 
 
-
     const userExists = await User.isUserExists(userId);
 
 
@@ -59,7 +58,6 @@ const blockUserIntoDB = async (userId: string, updateStatus: TUserStatus) => {
 };
 
 
-
 const createAdminIntoDB = async (id: string, role: string) => {
     const createAdmin = await User.findByIdAndUpdate(id,
         { role: role },
@@ -67,7 +65,6 @@ const createAdminIntoDB = async (id: string, role: string) => {
     );
     return createAdmin;
 };
-
 
 
 
@@ -95,24 +92,19 @@ const publishRecipeIntoDB = async (id: string) => {
 
 
 
-
-
 //  Do it After some minuite Better approch
 
 const deleteUserFromDB = async (userId: string) => {
-
     const userExists = await User.isUserExists(userId);
 
     if (!userExists) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User not Found');
     }
-
     const deletedUser = await User.findByIdAndUpdate(
         userId,
         { isDeleted: true },
         { new: true },
     );
-
 
     return deletedUser;
 

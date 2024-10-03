@@ -1,14 +1,15 @@
 import mongoose, { Schema, Types } from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
-import { UseSearchableFields } from "./recipe.constant";
+import { recipeSearchableFields } from "./recipe.constant";
 import { IRecipe } from "./recipe.interface";
 import { Recipe } from "./recipe.model";
+import { TImageFile } from "../../interface/image.interface";
 
 
 
 const getAllRecipeFromDB = async (query: Record<string, unknown>) => {
   const UserQuery = new QueryBuilder(Recipe.find(), query)
-    .search(UseSearchableFields)
+    .search(recipeSearchableFields)
     .filter()
     .sort()
     .paginate()
@@ -23,19 +24,24 @@ const getAllRecipeFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-const CreateRecipeIntoDB = async (userId: string, payload: IRecipe) => {
+const CreateRecipeIntoDB = async (userId: string, payload: IRecipe, file: TImageFile) => {
   const authorId = new mongoose.Types.ObjectId(userId);
-
-  const recipeData: IRecipe = { ...payload, author: authorId }
+  const recipeData: IRecipe = { ...payload, author: authorId, image: file?.path }
   const result = await Recipe.create(recipeData)
   return result;
-};
+}
+
+
 const getSingleRecipeFromDB = async (id: string) => {
   const result = await Recipe.findById(id);
   return result;
 };
 
-const updateRecipeIntoDB = async (id: string, payload: Partial<IRecipe>) => {
+const updateRecipeIntoDB = async (id: string, payload: Partial<IRecipe>, file: TImageFile) => {
+
+  if (file?.path) {
+    payload.image = file.path
+  }
 
   const result = await Recipe.findByIdAndUpdate(id, payload, {
     new: true,
@@ -52,7 +58,6 @@ const deleteRecipeFromDB = async (id: string) => {
     runValidators: true,
   });
   return result;
-
 
 };
 

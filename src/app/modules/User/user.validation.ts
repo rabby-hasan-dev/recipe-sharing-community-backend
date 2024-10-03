@@ -1,6 +1,18 @@
 import { z } from 'zod';
 
 
+const userNameSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, 'First Name is required')
+    .max(20, 'Name cannot be more than 20 characters')
+    .trim(),
+  lastName: z
+    .string()
+    .min(1, 'Last Name is required')
+    .max(20, 'Name cannot be more than 20 characters')
+    .trim(),
+});
 
 
 const imageFileSchema = z.object({
@@ -12,7 +24,6 @@ const imageFileSchema = z.object({
   size: z.number().min(1, 'File size must be greater than 0'),
   filename: z.string().min(1, 'Filename is required'),
 });
-
 
 
 const userValidationSchema = z.object({
@@ -34,6 +45,18 @@ const userValidationSchema = z.object({
 
 
 
+
+
+
+
+const userUpdateValidationSchema = z.object({
+  body: z.object({
+    name: userNameSchema,
+    bio: z.string().optional().default(''),
+  }),
+})
+
+
 const changeStatusValidationSchema = z.object({
   body: z.object({
     status: z.enum(['in-progress', 'active', 'blocked'] as [string, ...string[]]),
@@ -43,4 +66,5 @@ const changeStatusValidationSchema = z.object({
 export const UserValidation = {
   userValidationSchema,
   changeStatusValidationSchema,
+  userUpdateValidationSchema
 };

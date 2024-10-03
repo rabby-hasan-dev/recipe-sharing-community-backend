@@ -23,7 +23,8 @@ const getMyProfile = catchAsync(async (req, res) => {
 const UpdateMyProfile = catchAsync(async (req, res) => {
   const user = req.user;
   const payload = req.body;
-  const result = await UserServices.updateUserDataIntoDB(user, payload);
+  const file = req.file;
+  const result = await UserServices.updateUserDataIntoDB(user, payload, file!);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

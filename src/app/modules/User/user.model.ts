@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
 import { TUser, TUserName, UserModel, UserRoleEnum, UserStatusEnum } from './user.interface';
+import { number } from 'zod';
 // import { UserRole, UserStatus } from './user.constant';
 
 
@@ -70,19 +71,17 @@ const userSchema = new Schema<TUser, UserModel>(
       default: UserStatusEnum.IN_PROGRESS,
     },
     profilePicture: {
-      type: String, // URL for the profile picture
-      default: '',  // Can be empty initially
+      type: String,
+      default: '',
     },
     bio: {
       type: String,
       default: '',
     },
-    followers: [
-      { type: Schema.Types.ObjectId, ref: 'User' }, // list of followers
-    ],
-    following: [
-      { type: Schema.Types.ObjectId, ref: 'User' }, // list of following users
-    ],
+
+    followerCount: { type: Number, default: 0 },
+    followingCount: { type: Number, default: 0 },
+
     isPremium: {
       type: Boolean,
       default: false, // indicates premium membership
@@ -143,5 +142,8 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
     new Date(passwordChangedTimestamp).getTime() / 1000;
   return passwordChangedTime > jwtIssuedTimestamp;
 };
+
+
+
 
 export const User = model<TUser, UserModel>('User', userSchema);

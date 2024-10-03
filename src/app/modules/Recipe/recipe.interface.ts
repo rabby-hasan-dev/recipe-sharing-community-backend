@@ -8,15 +8,9 @@ export interface IRecipe {
   cookingTime: number;
   author: Types.ObjectId;
   totalRatings: number;
-  ratings: Types.ObjectId[];
   averageRating: number;
   upVoteCount: number;
   downVoteCount: number;
-  comments: {
-    user: Types.ObjectId;
-    comment: string;
-    createdAt: Date;
-  }[];
   totalComment: number;
   isPremium: boolean;
   isPublished: boolean;

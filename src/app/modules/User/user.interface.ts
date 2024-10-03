@@ -33,12 +33,12 @@ export interface TUser {
   role: UserRoleEnum;
   isVerified: boolean;
   status: UserStatusEnum;
-  profilePicture?: string;
-  bio?: string;
-  followers?: Types.ObjectId[];
-  following?: Types.ObjectId[];
+  profilePicture: string;
+  bio: string;
+  followerCount: number;
+  followingCount: number;
   isPremium: boolean;
-  membershipExpiration?: Date;
+  membershipExpiration: Date;
   isDeleted: boolean;
 
 

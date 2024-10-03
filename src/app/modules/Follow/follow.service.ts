@@ -3,6 +3,7 @@ import AppError from "../../errors/AppError";
 
 import { Follower, Following } from "./follow.model";
 import { User } from "../User/user.model";
+import mongoose from "mongoose";
 
 
 
@@ -15,30 +16,52 @@ const followUserIntoDB = async (currentUserId: any, userToFollowId: any) => {
   const currentUserExists = await User.isUserExists(currentUserId);
   const userToFollowExists = await User.isUserExists(currentUserId);
 
+
   if (!currentUserExists || !userToFollowExists) {
     throw new AppError(httpStatus.NOT_FOUND, "One or both users not found");
   }
 
+  const session = await mongoose.startSession();
 
-  // Use $addToSet to ensure no duplicates are added
-  await Following.updateOne(
-    { user: currentUserId },
-    { $addToSet: { following: userToFollowId } },
-    { upsert: true }  // Create if it doesn't exist
-  );
+  try {
 
-  await Follower.updateOne(
-    { user: userToFollowId },
-    { $addToSet: { followers: currentUserId } },
-    { upsert: true }
-  );
+    session.startTransaction();
 
-  return { message: "User followed successfully" };
+    // Use $addToSet to ensure no duplicates are added
+    await Following.updateOne(
+      { user: currentUserId },
+      { $addToSet: { following: userToFollowId } },
+      { upsert: true, session }  // Create if it doesn't exist
+    );
+
+    await Follower.updateOne(
+      { user: userToFollowId },
+      { $addToSet: { followers: currentUserId } },
+      { upsert: true, session }
+    );
+
+    // Update the followersCount and followingCount in the User collection
+    await User.findByIdAndUpdate(currentUserId, { $inc: { followingCount: 1 } }, { session });
+    await User.findByIdAndUpdate(userToFollowId, { $inc: { followerCount: 1 } }, { session });
+    await session.commitTransaction();
+    session.endSession();
+
+    return {
+      message: "User followed successfully",
+
+    };
+
+
+  } catch (error) {
+
+    await session.abortTransaction();
+    session.endSession();
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to follow user');
+  }
 
 
 
 };
-
 
 const UnfollowUserIntoDB = async (currentUserId: any, userToUnfollowId: any) => {
 
@@ -53,33 +76,56 @@ const UnfollowUserIntoDB = async (currentUserId: any, userToUnfollowId: any) => 
     throw new AppError(httpStatus.NOT_FOUND, "One or both users not found");
   }
 
-  // Use $pull to remove the user from the following/follower lists
-  await Following.updateOne(
-    { user: currentUserId },
-    { $pull: { following: userToUnfollowId } }
-  );
+  const session = await mongoose.startSession();
 
-  await Follower.updateOne(
-    { user: userToUnfollowId },
-    { $pull: { followers: currentUserId } }
-  );
+  try {
+    session.startTransaction();
+    // Use $pull to remove the user from the following/follower lists
+    await Following.updateOne(
+      { user: currentUserId },
+      { $pull: { following: userToUnfollowId } },
+      { upsert: true, session }
+    );
 
-  return { message: "User unfollowed successfully" };
+    await Follower.updateOne(
+      { user: userToUnfollowId },
+      { $pull: { followers: currentUserId } },
+      { upsert: true, session }
+    );
+
+
+    // Decrement the followersCount and followingCount in the User collection
+    await User.findByIdAndUpdate(currentUserId, { $inc: { followingCount: -1 } }, { session });
+    await User.findByIdAndUpdate(userToUnfollowId, { $inc: { followerCount: -1 } }, { session });
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return {
+      message: "User unfollowed successfully",
+    };
+
+  } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to Unfollow user');
+
+  }
+
 }
 
 
 
 
-// fllow and following count
+
+// After asssignment submission create this
 
 const getFollowerCountFromDB = async (userId: string) => {
-  const follower = await Follower.findOne({ user: userId }).select("followers");
-  return follower ? follower.followers.length : 0;
+
 };
 
 const getFollowingCountFromDB = async (userId: string) => {
-  const following = await Following.findOne({ user: userId }).select("following");
-  return following ? following.following.length : 0;
+
 };
 
 

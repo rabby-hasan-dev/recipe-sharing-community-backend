@@ -33,30 +33,33 @@ const unfollowUser = catchAsync(async (req, res) => {
   });
 });
 
-const getFollowerCount = catchAsync(async (req, res) => {
-  const { userId } = req.params;
 
-  const result = await followServices.getFollowerCountFromDB(userId);
+//  Do After assignment submission
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Follower Count succesfully',
-    data: result,
-  });
-});
-const getFollowingCount = catchAsync(async (req, res) => {
-  const { userId } = req.params;
+// const getFollowerCount = catchAsync(async (req, res) => {
+//   const { userId } = req.params;
 
-  const result = await followServices.getFollowingCountFromDB(userId);
+//   const result = await followServices.getFollowerCountFromDB(userId);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Following Count succesfully',
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Follower Count succesfully',
+//     data: result,
+//   });
+// });
+// const getFollowingCount = catchAsync(async (req, res) => {
+//   const { userId } = req.params;
+
+//   const result = await followServices.getFollowingCountFromDB(userId);
+
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Following Count succesfully',
+//     data: result,
+//   });
+// });
 
 
 
@@ -64,8 +67,8 @@ const getFollowingCount = catchAsync(async (req, res) => {
 export const followController = {
   followUser,
   unfollowUser,
-  getFollowerCount,
-  getFollowingCount
+  // getFollowerCount,
+  // getFollowingCount
 
 
 };

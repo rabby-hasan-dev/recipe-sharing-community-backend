@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
+
 import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
 import config from '../config';
@@ -9,8 +8,10 @@ import handleDuplicateError from '../errors/handleDuplicateError';
 import handleValidationError from '../errors/handleValidationError';
 import handleZodError from '../errors/handleZodError';
 import { TErrorSources } from '../interface/error';
+import { deleteImageFromCloudinary } from '../utils/deleteImage';
+import { TImageFiles } from '../interface/image.interface';
 
-const globalErrorHandler: ErrorRequestHandler = (err, req, res, next): any => {
+const globalErrorHandler: ErrorRequestHandler = async (err, req, res, next): Promise<any> => {
   //setting default values
   let statusCode = 500;
   let message = 'Something went wrong!';
@@ -20,6 +21,11 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next): any => {
       message: 'Something went wrong',
     },
   ];
+
+  if (req.files && Object.keys(req.files).length > 0) {
+    await deleteImageFromCloudinary(req.files as TImageFiles);
+  }
+
 
   if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err);

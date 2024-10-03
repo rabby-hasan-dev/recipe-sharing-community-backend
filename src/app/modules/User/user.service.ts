@@ -6,6 +6,7 @@ import { User } from './user.model';
 import { JwtPayload } from 'jsonwebtoken';
 import { TUser } from './user.interface';
 import { UserSearchableFields } from './user.constant';
+import { TImageFile } from '../../interface/image.interface';
 
 
 
@@ -21,12 +22,17 @@ const getMyProfileIntoDB = async (email: string, role: string) => {
 
 
 
-const updateUserDataIntoDB = async (user: JwtPayload, payload: Partial<TUser>) => {
+const updateUserDataIntoDB = async (user: JwtPayload, payload: Partial<TUser>, file: TImageFile) => {
+
     const { userId, email, role } = user;
     const userExists = User.isUserExists(userId);
 
     if (!userExists) {
         throw new AppError(httpStatus.UNAUTHORIZED, "User not Authorized")
+    }
+
+    if (file?.path) {
+        payload.profilePicture = file.path
     }
 
     const { name, ...remainingUserData } = payload;

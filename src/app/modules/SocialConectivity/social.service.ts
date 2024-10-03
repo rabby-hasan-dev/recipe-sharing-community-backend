@@ -23,9 +23,9 @@ const rateAndCalculateAverage = async (currentUserId: string, recipeId: string, 
   }
 
   const session = await mongoose.startSession();
-  session.startTransaction();
 
   try {
+    session.startTransaction();
     const existingRating = await Rating.findOne({ recipeId, userId: currentUserId });
 
     if (existingRating) {
@@ -82,9 +82,9 @@ const postRecipeCommentIntoDB = async (currentUserId: string, recipeId: string, 
     throw new AppError(httpStatus.UNAUTHORIZED, 'User not found!')
   }
   const session = await mongoose.startSession();
-  session.startTransaction();
 
   try {
+    session.startTransaction();
 
     const newComment = { recipeId, userId: currentUserId, comment, }
     const savedComment = await Comment.create([newComment], { session });
@@ -152,8 +152,8 @@ const editRecipeCommentFromDB = async (userId: string, commentId: string, conten
 const deleteRecipeCommentFromDB = async (recipeId: string, commentId: string,) => {
 
   const session = await mongoose.startSession();
-  session.startTransaction();
   try {
+    session.startTransaction();
     await Comment.findByIdAndDelete(commentId, { session });
 
     // Check if the Recipe exists
