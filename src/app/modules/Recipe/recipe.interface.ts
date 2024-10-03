@@ -1,4 +1,4 @@
-import { Model, Schema } from "mongoose";
+import { Model, Schema, Types } from "mongoose";
 
 export interface IRecipe {
   title: string;
@@ -6,22 +6,18 @@ export interface IRecipe {
   image: string;
   ingredients: string[];
   cookingTime: number;
-  author: Schema.Types.ObjectId;
-  ratings: {
-    user: Schema.Types.ObjectId;
-    rating: number;
-  }[];
+  author: Types.ObjectId;
+  totalRatings: number;
+  ratings: Types.ObjectId[];
   averageRating: number;
   upVoteCount: number;
   downVoteCount: number;
-  // upvotes: Schema.Types.ObjectId[];
-  // downvotes: Schema.Types.ObjectId[];
   comments: {
-    user: Schema.Types.ObjectId;
+    user: Types.ObjectId;
     comment: string;
     createdAt: Date;
   }[];
-  commentCount?: number;
+  commentCount: number;
   isPremium: boolean;
   isPublished: boolean;
   isDeleted: boolean;

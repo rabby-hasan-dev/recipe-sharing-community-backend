@@ -3,61 +3,70 @@ import AppError from "../../errors/AppError";
 
 import { Comment, Rating, Vote } from "./social.model";
 import { Recipe } from "../Recipe/recipe.model";
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { User } from "../User/user.model";
+import { validateRating } from "./social.utils";
 
 
 // -------------- Rate Recpe section ---------
-const rateRecipeIntoDB = async (currentUserId: string, recipeId: string, rating: any) => {
 
-  if (rating < 1 || rating > 5) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Rating should be between 1 and 5!');
-  }
+
+
+// Submit or update a rating, then calculate and update the recipe's average rating
+const rateAndCalculateAverage = async (currentUserId: string, recipeId: string, ratingValue: number) => {
+  validateRating(ratingValue);
 
   const userExists = await User.isUserExists(currentUserId);
-
-
-  if (!userExists) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'User not found!')
+  const recipeExists = await Recipe.isRecipeExists(recipeId);
+  if (!userExists || !recipeExists) {
+    throw new AppError(httpStatus.NOT_FOUND, "One or both recipe and users not found");
   }
 
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  const existingRating = await Rating.findOne({ recipeId, userId: currentUserId });
+  try {
+    const existingRating = await Rating.findOne({ recipeId, userId: currentUserId });
 
-  if (existingRating) {
-    // Update existing rating
-    existingRating.rating = rating?.rating;
-    await existingRating.save();
-  } else {
-    // Create new rating
-    const newRating = new Rating({ recipeId, userId: currentUserId, ...rating });
-    await newRating.save();
+    if (existingRating) {
+      existingRating.rating = ratingValue;
+      await existingRating.save({ session });
+    } else {
+      const newRating = await Rating.create([{ recipeId, userId: currentUserId, rating: ratingValue }], { session });
+      // await Recipe.findByIdAndUpdate(recipeId, { $push: { ratings: newRating._id } }, { session });
+    }
 
-    // Push the new rating into the recipe
-    await Recipe.findByIdAndUpdate(recipeId, { $push: { ratings: newRating._id } });
+    // Aggregate to update the average rating and total rating count
+    const ratingsData = await Rating.aggregate([
+      { $match: { recipeId: new mongoose.Types.ObjectId(recipeId) } },
+      { $group: { _id: null, averageRating: { $avg: '$rating' }, totalRatings: { $sum: 1 } } },
+
+    ]).session(session);
+
+    const averageRating = ratingsData[0]?.averageRating || 0;
+    const totalRatings = ratingsData[0]?.totalRatings || 0;
+
+    // console.log('inside rating service==>', ratingsData)
+    // Update the recipe with new average rating and total ratings
+    await Recipe.findByIdAndUpdate(recipeId, { averageRating, totalRatings }, { session });
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return { averageRating, totalRatings, message: 'Rating submitted successfully!' };
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to submit rating!');
   }
-
-
 };
+
 
 
 const getRecipeRatingsFromDB = async (recipeId: string) => {
 
   const ratings = await Rating.find({ recipeId }).populate('userId').populate('recipeId');
   return ratings;
-
-};
-
-
-
-const getAvarageRecipeRatingsFromDB = async (recipeId: string) => {
-  const averageRating = await Rating.aggregate([
-    { $match: { recipeId } },
-    { $group: { _id: null, averageRating: { $avg: '$rating' } } },
-  ]);
-
-  // console.log(averageRating);
-  return { averageRating: averageRating[0]?.averageRating || 0 }
 
 };
 
@@ -131,10 +140,7 @@ const deleteRecipeCommentFromDB = async (recipeId: string, commentId: string,) =
 
 
 
-
-
 // -------------- Vote Recpe section ---------
-
 
 const toggleVote = async (recipeId: string, userId: string, type: 'upvote' | 'downvote') => {
   const userExists = await User.isUserExists(userId);
@@ -176,9 +182,8 @@ const toggleVote = async (recipeId: string, userId: string, type: 'upvote' | 'do
 
 
 export const SocailConectivityServices = {
-  rateRecipeIntoDB,
+  rateAndCalculateAverage,
   getRecipeRatingsFromDB,
-  getAvarageRecipeRatingsFromDB,
   postRecipeCommentIntoDB,
   getRecipeCommentFromDB,
   editRecipeCommentFromDB,

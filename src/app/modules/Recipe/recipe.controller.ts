@@ -7,8 +7,8 @@ import { RecipeServices } from './recipe.service';
 
 const createRecipe = catchAsync(async (req, res) => {
   const recipe = req.body;
-  const result = await RecipeServices.CreateRecipeIntoDB(recipe);
-
+  const userId = req?.user?.userId;
+  const result = await RecipeServices.CreateRecipeIntoDB(userId, recipe);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

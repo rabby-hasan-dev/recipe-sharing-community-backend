@@ -1,3 +1,4 @@
+import mongoose, { Schema, Types } from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { UseSearchableFields } from "./recipe.constant";
 import { IRecipe } from "./recipe.interface";
@@ -22,8 +23,11 @@ const getAllRecipeFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-const CreateRecipeIntoDB = async (payload: IRecipe) => {
-  const result = await Recipe.create(payload)
+const CreateRecipeIntoDB = async (userId: string, payload: IRecipe) => {
+  const authorId = new mongoose.Types.ObjectId(userId);
+
+  const recipeData: IRecipe = { ...payload, author: authorId }
+  const result = await Recipe.create(recipeData)
   return result;
 };
 const getSingleRecipeFromDB = async (id: string) => {

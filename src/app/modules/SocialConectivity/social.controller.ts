@@ -8,11 +8,9 @@ import { SocailConectivityServices } from './social.service';
 
 const rateRecipe = catchAsync(async (req, res) => {
   const currentUserId = req?.user?.userId;
-  const rating = req.body;
+  const { rating } = req.body;
   const { recipeId } = req.params
-
-
-  const result = await SocailConectivityServices.rateRecipeIntoDB(currentUserId, recipeId, rating);
+  const result = await SocailConectivityServices.rateAndCalculateAverage(currentUserId, recipeId, rating);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -22,23 +20,12 @@ const rateRecipe = catchAsync(async (req, res) => {
   });
 });
 
+
+
 const getRecipeRatings = catchAsync(async (req, res) => {
   const { recipeId } = req.params;
 
   const result = await SocailConectivityServices.getRecipeRatingsFromDB(recipeId);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'get recipe ratting succesfully',
-    data: result,
-  });
-});
-
-const getAvarageRecipeRatings = catchAsync(async (req, res) => {
-  const { recipeId } = req.params;
-
-  const result = await SocailConectivityServices.getAvarageRecipeRatingsFromDB(recipeId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -128,28 +115,13 @@ const toggleVoteRecipe = catchAsync(async (req, res) => {
 
 
 
-const getvotes = catchAsync(async (req, res) => {
-  const { recipeId } = req.params;
-
-  const result = await SocailConectivityServices.getvotesFromDB(recipeId);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'get vote ratting succesfully',
-    data: result,
-  });
-});
-
 
 export const SocailConectivityControllers = {
   rateRecipe,
   getRecipeRatings,
-  getAvarageRecipeRatings,
   postRecipeComment,
   getRecipeComment,
   editeRecipeComment,
   deleteRecipeComment,
   toggleVoteRecipe,
-  getvotes
 };

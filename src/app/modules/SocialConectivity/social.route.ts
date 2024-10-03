@@ -11,7 +11,6 @@ router.post('/:recipeId/rate', auth(USER_ROLE.user), SocailConectivityController
 router.get('/:recipeId/ratings',
     auth(USER_ROLE.user),
     SocailConectivityControllers.getRecipeRatings);
-router.get('/:recipeId/rating/average', SocailConectivityControllers.getAvarageRecipeRatings);
 router.post('/:recipeId/comments', auth(USER_ROLE.user), SocailConectivityControllers.postRecipeComment);
 router.get('/:recipeId/comments', SocailConectivityControllers.getRecipeComment);
 router.put('/comments/:commentId',

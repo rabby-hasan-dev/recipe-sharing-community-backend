@@ -31,19 +31,14 @@ const RecipeSchema = new Schema<IRecipe, RecipeModel>(
       ref: 'User', // Reference to User who is the author
       required: [true, 'Author is required'],
     },
-    ratings: [
-      // {
-      //   user: {
-      //     type: Schema.Types.ObjectId,
-      //     ref: 'User',
-      //   },
-      //   rating: {
-      //     type: Number,
-      //     min: 1,
-      //     max: 5,
-      //   },
-      // },
-    ],
+    ratings: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Rating',  // Reference to the Rating model
+    },],
+    totalRatings: {
+      type: Number,
+      default: 0, // Auto-calculated average of ratings
+    },
     averageRating: {
       type: Number,
       default: 0, // Auto-calculated average of ratings
@@ -51,34 +46,7 @@ const RecipeSchema = new Schema<IRecipe, RecipeModel>(
 
     upVoteCount: { type: Number, default: 0 },
     downVoteCount: { type: Number, default: 0 },
-    // upvotes: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User', // Reference to User who upvoted
-    //   },
-    // ],
-    // downvotes: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User', // Reference to User who downvoted
-    //   },
-    // ],
-    comments: [
-      // {
-      //   user: {
-      //     type: Schema.Types.ObjectId,
-      //     ref: 'User', // Reference to User who commented
-      //   },
-      //   comment: {
-      //     type: String,
-      //     required: [true, 'Comment text is required'],
-      //   },
-      //   createdAt: {
-      //     type: Date,
-      //     default: Date.now,
-      //   },
-      // },
-    ],
+    comments: [],
     commentCount: { type: Number, default: 0 },
     isPremium: {
       type: Boolean,
@@ -121,8 +89,8 @@ RecipeSchema.pre('aggregate', function (next) {
 
 //creating a custom static method
 RecipeSchema.statics.isRecipeExists = async function (id: string) {
-  const existingRecipe = await Recipe.findOne({ id });
+  const existingRecipe = await Recipe.findById(id);
   return existingRecipe;
 };
 
-export const Recipe = model<IRecipe>('Recipe', RecipeSchema);
+export const Recipe = model<IRecipe, RecipeModel>('Recipe', RecipeSchema);
