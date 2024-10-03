@@ -10,8 +10,6 @@ import { sendEmail } from '../../utils/sendEmail';
 import { TUser } from '../User/user.interface';
 import { TImageFile } from '../../interface/image.interface';
 
-
-
 const signUpUserIntoDB = async (file: TImageFile, payload: TUser) => {
   const userData: TUser = {
     ...payload,
@@ -20,10 +18,7 @@ const signUpUserIntoDB = async (file: TImageFile, payload: TUser) => {
 
   const result = await User.create(userData);
   return result;
-
-
-}
-
+};
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist

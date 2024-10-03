@@ -4,12 +4,15 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { RecipeServices } from './recipe.service';
 
-
 const createRecipe = catchAsync(async (req, res) => {
   const recipedata = req.body;
   const file = req.file;
   const userId = req?.user?.userId;
-  const result = await RecipeServices.CreateRecipeIntoDB(userId, recipedata, file!);
+  const result = await RecipeServices.CreateRecipeIntoDB(
+    userId,
+    recipedata,
+    file!,
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -45,7 +48,11 @@ const updateRecipe = catchAsync(async (req, res) => {
   const { recipeId } = req.params;
   const recipeData = req.body;
   const file = req.file;
-  const result = await RecipeServices.updateRecipeIntoDB(recipeId, recipeData, file!);
+  const result = await RecipeServices.updateRecipeIntoDB(
+    recipeId,
+    recipeData,
+    file!,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

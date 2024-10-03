@@ -6,10 +6,6 @@ import sendResponse from '../../utils/sendResponse';
 import { AdminServices } from './admin.service';
 import { USER_ROLE } from '../../constant';
 
-
-
-
-
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   const result = await AdminServices.getAllUsersFromDB(req.query);
 
@@ -21,9 +17,6 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
     data: result.result,
   });
 });
-
-
-
 
 const blockUser = catchAsync(async (req, res) => {
   const { userId } = req.params;
@@ -45,12 +38,10 @@ const createAdmin = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `${role === USER_ROLE.admin ? "Admin" : "user"} is created succesfully`,
+    message: `${role === USER_ROLE.admin ? 'Admin' : 'user'} is created succesfully`,
     data: result,
   });
 });
-
-
 
 const deleteUser = catchAsync(async (req, res) => {
   const { userId } = req.params;
@@ -76,11 +67,10 @@ const publishRecipe = catchAsync(async (req, res) => {
   });
 });
 
-
 export const AdminControllers = {
   getAllUsers,
   deleteUser,
   blockUser,
   createAdmin,
-  publishRecipe
+  publishRecipe,
 };

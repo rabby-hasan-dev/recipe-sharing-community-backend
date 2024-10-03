@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { IRecipe, RecipeModel } from './recipe.interface';
 
-
 const RecipeSchema = new Schema<IRecipe, RecipeModel>(
   {
     title: {
@@ -58,13 +57,8 @@ const RecipeSchema = new Schema<IRecipe, RecipeModel>(
   },
   {
     timestamps: true,
-  }
+  },
 );
-
-
-
-
-
 
 // Query Middleware
 RecipeSchema.pre('find', function (next) {

@@ -1,11 +1,13 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
-import { TUser, TUserName, UserModel, UserRoleEnum, UserStatusEnum } from './user.interface';
-import { number } from 'zod';
-// import { UserRole, UserStatus } from './user.constant';
-
+import {
+  TUser,
+  TUserName,
+  UserModel,
+  UserRoleEnum,
+  UserStatusEnum,
+} from './user.interface';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -22,10 +24,8 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-
 const userSchema = new Schema<TUser, UserModel>(
   {
-
     username: {
       type: String,
       required: true,
@@ -34,7 +34,6 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     name: {
       type: userNameSchema,
-
     },
     email: {
       type: String,
@@ -98,8 +97,6 @@ const userSchema = new Schema<TUser, UserModel>(
       type: Boolean,
       default: false,
     },
-
-
   },
   {
     timestamps: true,
@@ -121,7 +118,6 @@ userSchema.post('save', function (doc, next) {
   doc.password = '';
   next();
 });
-
 
 userSchema.statics.isUserExists = async function (id: string) {
   return await User.findById(id).select('+password');
@@ -146,8 +142,5 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
     new Date(passwordChangedTimestamp).getTime() / 1000;
   return passwordChangedTime > jwtIssuedTimestamp;
 };
-
-
-
 
 export const User = model<TUser, UserModel>('User', userSchema);

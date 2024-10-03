@@ -4,7 +4,6 @@ import { UsersRoutes } from '../modules/User/user.route';
 import { AdminRoutes } from '../modules/Admin/admin.route';
 import { FollowRoutes } from '../modules/Follow/follow.route';
 import { PremiumRoutes } from '../modules/PremiumMemberShipSubscription/premium.route';
-import { paymentRoutes } from '../modules/payment/payment.route';
 import { RecipeRoutes } from '../modules/Recipe/recipe.route';
 import { SocailConectivityRoutes } from '../modules/SocialConectivity/social.route';
 

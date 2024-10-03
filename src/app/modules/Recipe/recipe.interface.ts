@@ -1,4 +1,4 @@
-import { Model, Schema, Types } from "mongoose";
+import { Model, Types } from 'mongoose';
 
 export interface IRecipe {
   title: string;
@@ -17,12 +17,6 @@ export interface IRecipe {
   isDeleted: boolean;
 }
 
-
-
-
-
-
 export interface RecipeModel extends Model<IRecipe> {
-
   isRecipeExists(id: string): Promise<IRecipe | null>;
 }

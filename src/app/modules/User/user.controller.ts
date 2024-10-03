@@ -4,9 +4,6 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { UserServices } from './user.service';
 
-
-
-
 const getMyProfile = catchAsync(async (req, res) => {
   const { email, role } = req.user;
   const result = await UserServices.getMyProfileIntoDB(email, role);
@@ -18,7 +15,6 @@ const getMyProfile = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
 
 const UpdateMyProfile = catchAsync(async (req, res) => {
   const user = req.user;
@@ -34,7 +30,6 @@ const UpdateMyProfile = catchAsync(async (req, res) => {
   });
 });
 
-
 const getSingleUser = catchAsync(async (req, res) => {
   const { userId } = req.params;
   const result = await UserServices.getSingleUserFromDB(userId);
@@ -47,7 +42,6 @@ const getSingleUser = catchAsync(async (req, res) => {
   });
 });
 
-
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   const result = await UserServices.getAllUsersFromDB(req.query);
 
@@ -59,8 +53,6 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
     data: result.result,
   });
 });
-
-
 
 const deleteUser = catchAsync(async (req, res) => {
   const { userId } = req.params;

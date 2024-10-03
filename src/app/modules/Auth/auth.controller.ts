@@ -11,15 +11,13 @@ const SignUpUser = catchAsync(async (req, res) => {
 
   const result = await AuthServices.signUpUserIntoDB(file!, data);
 
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User is SignUp in succesfully!',
-    data: result
+    data: result,
   });
 });
-
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);

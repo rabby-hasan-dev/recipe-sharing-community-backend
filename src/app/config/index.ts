@@ -15,6 +15,7 @@ export default {
   jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN,
   reset_pass_ui_link: process.env.RESET_PASS_UI_LINK,
   super_admin_email: process.env.SUPER_ADMIN_EMAIL,
+  super_admin_username: process.env.SUPER_ADMIN_USERNAME,
   super_admin_password: process.env.SUPER_ADMIN_PASSWORD,
   nodemailer_user_email: process.env.NODEMAILER_USER_EMAIL,
   nodemailer_user_app_pass: process.env.NODEMAILER__USER_APP_PASSWORD,

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-
 const userNameSchema = z.object({
   firstName: z
     .string()
@@ -14,17 +13,15 @@ const userNameSchema = z.object({
     .trim(),
 });
 
-
-const imageFileSchema = z.object({
-  fieldname: z.string().min(1, 'Fieldname is required'),
-  originalname: z.string().min(1, 'Original name is required'),
-  encoding: z.string().min(1, 'Encoding is required'),
-  mimetype: z.string().min(1, 'Mimetype is required'),
-  path: z.string().min(1, 'Path is required'),
-  size: z.number().min(1, 'File size must be greater than 0'),
-  filename: z.string().min(1, 'Filename is required'),
-});
-
+// const imageFileSchema = z.object({
+//   fieldname: z.string().min(1, 'Fieldname is required'),
+//   originalname: z.string().min(1, 'Original name is required'),
+//   encoding: z.string().min(1, 'Encoding is required'),
+//   mimetype: z.string().min(1, 'Mimetype is required'),
+//   path: z.string().min(1, 'Path is required'),
+//   size: z.number().min(1, 'File size must be greater than 0'),
+//   filename: z.string().min(1, 'Filename is required'),
+// });
 
 const userValidationSchema = z.object({
   body: z.object({
@@ -43,12 +40,6 @@ const userValidationSchema = z.object({
   }),
 });
 
-
-
-
-
-
-
 const userUpdateValidationSchema = z.object({
   body: z.object({
     name: userNameSchema,
@@ -56,17 +47,19 @@ const userUpdateValidationSchema = z.object({
     phone: z.string().optional().default(''),
     address: z.string().optional().default(''),
   }),
-})
-
+});
 
 const changeStatusValidationSchema = z.object({
   body: z.object({
-    status: z.enum(['in-progress', 'active', 'blocked'] as [string, ...string[]]),
+    status: z.enum(['in-progress', 'active', 'blocked'] as [
+      string,
+      ...string[],
+    ]),
   }),
 });
 
 export const UserValidation = {
   userValidationSchema,
   changeStatusValidationSchema,
-  userUpdateValidationSchema
+  userUpdateValidationSchema,
 };

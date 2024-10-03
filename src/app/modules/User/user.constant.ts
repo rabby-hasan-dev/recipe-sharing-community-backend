@@ -1,17 +1,12 @@
-
-
-
 export const UserStatus = {
-    ACTIVE: 'active',
-    IN_PROGRESS: 'in-progress',
-    BLOCKED: 'blocked',
+  ACTIVE: 'active',
+  IN_PROGRESS: 'in-progress',
+  BLOCKED: 'blocked',
 } as const;
 
-
-
 export const UserSearchableFields = [
-    'email',
-    'name.firstName',
-    'name.lastName',
-    'presentAddress',
+  'email',
+  'name.firstName',
+  'name.lastName',
+  'presentAddress',
 ];

@@ -9,7 +9,6 @@ import httpStatus from 'http-status';
 import { UserValidation } from '../User/user.validation';
 import { multerUpload } from '../../config/multer.config';
 
-
 const router = express.Router();
 
 router.post(
