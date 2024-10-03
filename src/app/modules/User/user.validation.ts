@@ -53,6 +53,8 @@ const userUpdateValidationSchema = z.object({
   body: z.object({
     name: userNameSchema,
     bio: z.string().optional().default(''),
+    phone: z.string().optional().default(''),
+    address: z.string().optional().default(''),
   }),
 })
 

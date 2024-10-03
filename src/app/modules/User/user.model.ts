@@ -74,7 +74,11 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       default: '',
     },
-    bio: {
+    phone: {
+      type: String,
+      default: '',
+    },
+    address: {
       type: String,
       default: '',
     },

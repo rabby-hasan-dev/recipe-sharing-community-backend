@@ -35,6 +35,8 @@ export interface TUser {
   status: UserStatusEnum;
   profilePicture: string;
   bio: string;
+  phone: string;
+  address: string;
   followerCount: number;
   followingCount: number;
   isPremium: boolean;

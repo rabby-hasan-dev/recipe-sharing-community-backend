@@ -8,10 +8,9 @@ import { subscriptionService } from './premium.service';
 const purchaseSubscription = catchAsync(async (req, res) => {
 
   const purchaseData = req.body;
-  const currentUserId = req.user.userId; // Assume user authentication is done
+  const currentUserId = req.user.userId;
 
   const result = await subscriptionService.createSubscriptionIntoDB(currentUserId, purchaseData);
-
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -23,18 +22,12 @@ const purchaseSubscription = catchAsync(async (req, res) => {
 
 
 const confirmPayment = catchAsync(async (req, res) => {
-
-  const { subscriptionId } = req.body;
-
-  const result = await subscriptionService.updateSubscriptionStatus(subscriptionId, 'active');
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Subscription activated successfully',
-    data: result,
-  });
+  const { transactionId, status } = req.query;
+  const result = await subscriptionService.paymentConfirmationService(transactionId as string, status as string);
+  res.send(result);
 });
+
+
 const checkActiveSubscription = catchAsync(async (req, res) => {
   const currentUserId = req.user.userId;
   const result = await subscriptionService.isSubscriptionActive(currentUserId);

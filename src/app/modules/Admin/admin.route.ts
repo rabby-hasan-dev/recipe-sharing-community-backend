@@ -14,14 +14,14 @@ router.get('/users',
     // auth(USER_ROLE.admin || USER_ROLE.superAdmin),
     AdminControllers.getAllUsers);
 router.put('/users/:userId/block',
-    // auth(USER_ROLE.admin || USER_ROLE.superAdmin),
+    auth(USER_ROLE.admin || USER_ROLE.superAdmin),
     validateRequest(AdminValidation.changeStatusValidationSchema),
     AdminControllers.blockUser);
 router.delete('/users/:userId',
     auth(USER_ROLE.admin || USER_ROLE.superAdmin),
     AdminControllers.deleteUser);
 router.post('/create-admin', auth(USER_ROLE.admin), AdminControllers.createAdmin);
-router.put('/recipes//publish', auth(USER_ROLE.admin), AdminControllers.publishRecipe);
+router.put('/recipes/publish', auth(USER_ROLE.admin), AdminControllers.publishRecipe);
 
 
 
