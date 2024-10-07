@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express';
+
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
@@ -42,34 +42,11 @@ const getSingleUser = catchAsync(async (req, res) => {
   });
 });
 
-const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
-  const result = await UserServices.getAllUsersFromDB(req.query);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User are retrieved succesfully',
-    meta: result.meta,
-    data: result.result,
-  });
-});
-
-const deleteUser = catchAsync(async (req, res) => {
-  const { userId } = req.params;
-  const result = await UserServices.deleteUserFromDB(userId);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User is deleted succesfully',
-    data: result,
-  });
-});
 
 export const UserControllers = {
   UpdateMyProfile,
   getMyProfile,
-  getAllUsers,
   getSingleUser,
-  deleteUser,
+
 };

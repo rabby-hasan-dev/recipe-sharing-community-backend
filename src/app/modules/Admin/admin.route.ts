@@ -26,9 +26,10 @@ router.delete(
 );
 router.post(
   '/create-admin',
-  auth('admin', 'superAdmin'),
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   AdminControllers.createAdmin,
 );
+
 router.put(
   '/recipes/publish',
   auth(USER_ROLE.admin),

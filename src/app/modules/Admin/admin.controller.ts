@@ -33,7 +33,6 @@ const blockUser = catchAsync(async (req, res) => {
 
 const createAdmin = catchAsync(async (req, res) => {
   const { userId, role } = req.body;
-  console.log(userId, role)
   const result = await AdminServices.createAdminIntoDB(userId, role);
 
   sendResponse(res, {

@@ -24,16 +24,9 @@ router.put(
   validateRequest(UserValidation.userUpdateValidationSchema),
   UserControllers.UpdateMyProfile,
 );
+
 router.get('/:userId', UserControllers.getSingleUser);
-router.get(
-  '/',
-  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
-  UserControllers.getAllUsers,
-);
-router.delete(
-  '/:userId',
-  auth(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
-  UserControllers.deleteUser,
-);
+
+
 
 export const UsersRoutes = router;

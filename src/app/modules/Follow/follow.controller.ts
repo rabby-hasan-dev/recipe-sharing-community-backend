@@ -40,6 +40,4 @@ const unfollowUser = catchAsync(async (req, res) => {
 export const followController = {
   followUser,
   unfollowUser,
-  // getFollowerCount,
-  // getFollowingCount
 };
