@@ -33,12 +33,13 @@ const blockUser = catchAsync(async (req, res) => {
 
 const createAdmin = catchAsync(async (req, res) => {
   const { userId, role } = req.body;
+  console.log(userId, role)
   const result = await AdminServices.createAdminIntoDB(userId, role);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `${role === USER_ROLE.admin ? 'Admin' : 'user'} is created succesfully`,
+    message: `${role === USER_ROLE.admin ? 'Admin' : 'User'} is created succesfully`,
     data: result,
   });
 });

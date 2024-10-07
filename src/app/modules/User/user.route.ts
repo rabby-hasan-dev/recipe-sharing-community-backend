@@ -10,12 +10,12 @@ const router = express.Router();
 
 router.get(
   '/me',
-  auth(USER_ROLE.user || USER_ROLE.admin),
+  auth(USER_ROLE.user, USER_ROLE.admin),
   UserControllers.getMyProfile,
 );
 router.put(
   '/me',
-  auth(USER_ROLE.user || USER_ROLE.admin),
+  auth(USER_ROLE.user, USER_ROLE.admin),
   multerUpload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
@@ -27,12 +27,12 @@ router.put(
 router.get('/:userId', UserControllers.getSingleUser);
 router.get(
   '/',
-  auth(USER_ROLE.admin || USER_ROLE.superAdmin),
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   UserControllers.getAllUsers,
 );
 router.delete(
   '/:userId',
-  auth(USER_ROLE.admin || USER_ROLE.user || USER_ROLE.superAdmin),
+  auth(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
   UserControllers.deleteUser,
 );
 

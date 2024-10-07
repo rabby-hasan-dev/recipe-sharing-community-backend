@@ -180,7 +180,7 @@ const deleteRecipeCommentFromDB = async (
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    await Comment.findByIdAndDelete(commentId, { session });
+    const deleteComment = await Comment.findByIdAndDelete(commentId, { session });
 
     // Check if the Recipe exists
     const recipe = await Recipe.findById(recipeId).session(session); // Ensure session is used for the query
@@ -199,6 +199,7 @@ const deleteRecipeCommentFromDB = async (
 
     await session.commitTransaction();
     session.endSession();
+    return deleteComment;
     // @ts-nocheck
   } catch (error) {
     await session.abortTransaction();

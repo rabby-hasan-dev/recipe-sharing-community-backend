@@ -29,7 +29,7 @@ router.post(
 router.get('/', RecipeControllers.getAllRecipes);
 router.get(
   '/:recipeId',
-  auth(USER_ROLE.user || USER_ROLE.admin),
+  auth(USER_ROLE.user, USER_ROLE.admin),
   RecipeControllers.getSingleRecipe,
 );
 
@@ -46,7 +46,7 @@ router.put(
 );
 router.delete(
   '/:recipeId',
-  auth(USER_ROLE.admin || USER_ROLE.user || USER_ROLE.superAdmin),
+  auth(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
   RecipeControllers.deleteRecipe,
 );
 
