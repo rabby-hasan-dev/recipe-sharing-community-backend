@@ -4,9 +4,11 @@ import { recipeSearchableFields } from './recipe.constant';
 import { IRecipe } from './recipe.interface';
 import { Recipe } from './recipe.model';
 import { TImageFile } from '../../interface/image.interface';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 
 const getAllRecipeFromDB = async (query: Record<string, unknown>) => {
-  const UserQuery = new QueryBuilder(Recipe.find(), query)
+  const UserQuery = new QueryBuilder(Recipe.find().populate('author'), query)
     .search(recipeSearchableFields)
     .filter()
     .sort()
@@ -59,6 +61,11 @@ const updateRecipeIntoDB = async (
 };
 
 const deleteRecipeFromDB = async (id: string) => {
+
+  const isRecipeExists = await Recipe.isRecipeExists(id)
+  if (!isRecipeExists) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Recipe not found!')
+  }
   const result = await Recipe.findByIdAndUpdate(
     id,
     { isDeleted: true },

@@ -6,7 +6,7 @@ import { SocailConectivityControllers } from './social.controller';
 const router = express.Router();
 
 router.post(
-  '/:recipeId/rate',
+  '/:recipeId/rating',
   auth(USER_ROLE.user),
   SocailConectivityControllers.rateRecipe,
 );

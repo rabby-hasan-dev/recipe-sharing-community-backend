@@ -143,8 +143,15 @@ const isSubscriptionActive = async (currentUserId: string) => {
   return moment(subscription.endDate).isAfter(new Date());
 };
 
+// Check if the user's subscription is active
+const getSubscriberMemberIntoDB = async () => {
+  const subscription = await Subscription.find({})
+  return subscription;
+};
+
 export const subscriptionService = {
   createSubscriptionIntoDB,
   paymentConfirmationService,
   isSubscriptionActive,
+  getSubscriberMemberIntoDB
 };

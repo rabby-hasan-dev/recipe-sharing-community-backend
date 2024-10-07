@@ -36,7 +36,7 @@ export interface TUser {
   followerCount: number;
   followingCount: number;
   isPremium: boolean;
-  membershipExpiration: Date;
+  premiumExpiresAt: Date;
   isDeleted: boolean;
 }
 

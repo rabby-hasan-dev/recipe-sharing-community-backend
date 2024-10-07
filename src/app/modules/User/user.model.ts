@@ -89,7 +89,7 @@ const userSchema = new Schema<TUser, UserModel>(
       type: Boolean,
       default: false, // indicates premium membership
     },
-    membershipExpiration: {
+    premiumExpiresAt: {
       type: Date, // expiration date for premium membership
     },
 
@@ -141,6 +141,10 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
   const passwordChangedTime =
     new Date(passwordChangedTimestamp).getTime() / 1000;
   return passwordChangedTime > jwtIssuedTimestamp;
+};
+
+userSchema.methods.isPremiumActive = function () {
+  return this.isPremium && this.premiumExpiresAt > Date.now();
 };
 
 export const User = model<TUser, UserModel>('User', userSchema);

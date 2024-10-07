@@ -1,6 +1,6 @@
-import { UserStatus } from '../User/user.constant';
+import { UserStatusEnum } from "../User/user.interface";
+
 
 export interface TUserStatus {
-  // _id?: Types.ObjectId | String;
-  status: UserStatus;
+  status: UserStatusEnum;
 }

@@ -56,13 +56,22 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 const publishRecipe = catchAsync(async (req, res) => {
-  const recipeId = req.body.id;
-  const result = await AdminServices.deleteUserFromDB(recipeId);
+  const recipeId = req.body.recipeId;
+  const result = await AdminServices.publishRecipeIntoDB(recipeId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'publish Recipe  succesfully',
+    data: result,
+  });
+});
+const getPremiumUsers = catchAsync(async (req, res) => {
+  const result = await AdminServices.premiumUsersFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Premuim User Retrive   succesfully',
     data: result,
   });
 });
@@ -73,4 +82,5 @@ export const AdminControllers = {
   blockUser,
   createAdmin,
   publishRecipe,
+  getPremiumUsers,
 };

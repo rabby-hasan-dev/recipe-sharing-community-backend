@@ -41,8 +41,20 @@ const checkActiveSubscription = catchAsync(async (req, res) => {
   });
 });
 
+const getAllSubscriberMember = catchAsync(async (req, res) => {
+  const result = await subscriptionService.getSubscriberMemberIntoDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get all subscription Member succesfully',
+    data: result,
+  });
+});
+
 export const subscriptionController = {
   confirmPayment,
   purchaseSubscription,
   checkActiveSubscription,
+  getAllSubscriberMember,
 };
