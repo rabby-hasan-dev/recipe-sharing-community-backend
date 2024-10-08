@@ -12,12 +12,14 @@ const subscriptionSchema = new Schema<ISubscription>(
       type: String,
       enum: ['monthly', 'yearly'], // You can define more plans here
       required: true,
+      trim: true
     },
     status: {
       type: String,
       enum: ['active', 'expired', 'pending'],
       default: 'pending',
       required: true,
+      trim: true,
     },
     price: {
       type: Number,

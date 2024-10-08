@@ -43,13 +43,26 @@ const updateUserDataIntoDB = async (
     }
   }
 
-  const result = await User.findOneAndUpdate(
-    { email: email },
-    modifiedUpdatedData,
-    { new: true, runValidators: true },
-  );
-  return result;
+
+
+  try {
+    const result = await User.findOneAndUpdate(
+      { email: email },
+      modifiedUpdatedData,
+      { new: true }
+    );
+
+    // return result;
+  } catch (err) {
+    console.error("Update error:", err); // Catch and log any errors
+  }
+
+
+
+
 };
+
+
 
 const getSingleUserFromDB = async (id: string) => {
   const result = await User.findById(id);
@@ -65,3 +78,5 @@ export const UserServices = {
   getSingleUserFromDB,
 
 };
+
+

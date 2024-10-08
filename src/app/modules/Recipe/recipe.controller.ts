@@ -10,6 +10,7 @@ const createRecipe = catchAsync(async (req, res) => {
   if (!req.files) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Please upload an image!');
   }
+  console.log('inside recipe controller=>', req.body);
 
   const recipedata = req.body;
   const files = req.files;
@@ -19,6 +20,7 @@ const createRecipe = catchAsync(async (req, res) => {
     recipedata,
     files as TImageFiles,
   );
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
