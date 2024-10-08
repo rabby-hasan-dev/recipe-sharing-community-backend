@@ -3,7 +3,7 @@ import { Model, Types } from 'mongoose';
 export interface IRecipe {
   title: string;
   description: string;
-  image: string;
+  images: string[];
   ingredients: string[];
   cookingTime: number;
   author: Types.ObjectId;

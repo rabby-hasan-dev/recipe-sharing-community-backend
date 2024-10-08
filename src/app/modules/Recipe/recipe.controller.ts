@@ -3,15 +3,21 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { RecipeServices } from './recipe.service';
+import AppError from '../../errors/AppError';
+import { TImageFiles } from '../../interface/image.interface';
 
 const createRecipe = catchAsync(async (req, res) => {
+  if (!req.files) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Please upload an image!');
+  }
+
   const recipedata = req.body;
-  const file = req.file;
+  const files = req.files;
   const userId = req?.user?.userId;
   const result = await RecipeServices.CreateRecipeIntoDB(
     userId,
     recipedata,
-    file!,
+    files as TImageFiles,
   );
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -47,11 +53,11 @@ const getAllRecipes: RequestHandler = catchAsync(async (req, res) => {
 const updateRecipe = catchAsync(async (req, res) => {
   const { recipeId } = req.params;
   const recipeData = req.body;
-  const file = req.file;
+  const file = req.files;
   const result = await RecipeServices.updateRecipeIntoDB(
     recipeId,
     recipeData,
-    file!,
+    file as TImageFiles,
   );
 
   sendResponse(res, {

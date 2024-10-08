@@ -264,11 +264,12 @@ const forgetPassword = async (userEmail: string) => {
     '10m',
   );
 
-  const resetUILink = `${config.reset_pass_ui_link}?email=${user.email}&token=${resetToken} `;
+  const resetUILink = `${config.reset_pass_ui_link}/reset-password?email=${user.email}&token=${resetToken} `;
 
   sendEmail(user.email, resetUILink);
 
   // console.log(resetUILink);
+  //localhost:3000?email=email&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJBLTAwMDEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDI4NTA2MTcsImV4cCI6MTcwMjg1MTIxN30.-T90nRaz8-KouKki1DkCSMAbsHyb9yDi0djZU3D6QO4
 };
 
 const resetPassword = async (
@@ -300,7 +301,7 @@ const resetPassword = async (
     config.jwt_access_secret as string,
   ) as JwtPayload;
 
-  //localhost:3000?email=email&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJBLTAwMDEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDI4NTA2MTcsImV4cCI6MTcwMjg1MTIxN30.-T90nRaz8-KouKki1DkCSMAbsHyb9yDi0djZU3D6QO4
+
 
   if (payload.email !== decoded.email) {
     throw new AppError(httpStatus.FORBIDDEN, 'You are forbidden!');

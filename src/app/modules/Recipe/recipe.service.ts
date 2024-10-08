@@ -3,7 +3,7 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import { recipeSearchableFields } from './recipe.constant';
 import { IRecipe } from './recipe.interface';
 import { Recipe } from './recipe.model';
-import { TImageFile } from '../../interface/image.interface';
+import { TImageFile, TImageFiles } from '../../interface/image.interface';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 
@@ -27,13 +27,14 @@ const getAllRecipeFromDB = async (query: Record<string, unknown>) => {
 const CreateRecipeIntoDB = async (
   userId: string,
   payload: IRecipe,
-  file: TImageFile,
+  files: TImageFiles,
 ) => {
   const authorId = new mongoose.Types.ObjectId(userId);
+  const { file } = files;
   const recipeData: IRecipe = {
     ...payload,
     author: authorId,
-    image: file?.path,
+    images: file.map((image) => image.path),
   };
   const result = await Recipe.create(recipeData);
   return result;
@@ -47,10 +48,11 @@ const getSingleRecipeFromDB = async (id: string) => {
 const updateRecipeIntoDB = async (
   id: string,
   payload: Partial<IRecipe>,
-  file: TImageFile,
+  files: TImageFiles,
 ) => {
-  if (file?.path) {
-    payload.image = file.path;
+  const { file } = files;
+  if (files.length) {
+    payload.images = file.map((image) => image.path);
   }
 
   const result = await Recipe.findByIdAndUpdate(id, payload, {

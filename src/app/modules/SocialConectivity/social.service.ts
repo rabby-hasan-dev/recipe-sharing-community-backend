@@ -61,8 +61,7 @@ const rateAndCalculateAverage = async (
     const averageRating = ratingsData[0]?.averageRating || 0;
     const totalRatings = ratingsData[0]?.totalRatings || 0;
 
-    // console.log('inside rating service==>', ratingsData)
-    // Update the recipe with new average rating and total ratings
+
     await Recipe.findByIdAndUpdate(
       recipeId,
       { averageRating, totalRatings },

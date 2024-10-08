@@ -8,21 +8,17 @@ import { USER_ROLE } from '../../constant';
 import { multerUpload } from '../../config/multer.config';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
+import { parseBody } from '../../middlewares/bodyparser';
 
 const router = express.Router();
 
 router.post(
   '/',
   auth(USER_ROLE.user),
-  multerUpload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    if (!req.file) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'No file uploaded');
-    }
-    req.body = JSON.parse(req.body.data);
+  // multerUpload.single('file'),
+  multerUpload.fields([{ name: 'file' }]),
 
-    next();
-  },
+  parseBody,
   validateRequest(recipeValidator.RecipeValidationSchema),
   RecipeControllers.createRecipe,
 );
