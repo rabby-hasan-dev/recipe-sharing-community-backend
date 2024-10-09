@@ -3,6 +3,27 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { UserServices } from './user.service';
+import { RequestHandler } from 'express';
+
+
+
+const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
+  const result = await UserServices.getAllUsersFromDB(req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User are retrieved succesfully',
+    meta: result.meta,
+    data: result.result,
+  });
+});
+
+
+
+
+
+
 
 const getMyProfile = catchAsync(async (req, res) => {
   const { email, role } = req.user;
@@ -42,11 +63,27 @@ const getSingleUser = catchAsync(async (req, res) => {
   });
 });
 
+const isPremium = catchAsync(async (req, res) => {
+
+  const { userId } = req.params;
+  console.log(userId);
+  const result = await UserServices.getIsPrimiumUserFromDB(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User is ',
+    data: result,
+  });
+});
+
 
 
 export const UserControllers = {
   UpdateMyProfile,
   getMyProfile,
   getSingleUser,
+  getAllUsers,
+  isPremium
 
 };

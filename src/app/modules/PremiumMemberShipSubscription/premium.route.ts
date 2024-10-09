@@ -14,7 +14,6 @@ router.post(
 );
 // Route to confirm payment
 router.post('/confirm',
-  auth(USER_ROLE.user),
   subscriptionController.confirmPayment);
 // Route to check if the user has an active subscription
 router.get('/active', auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.superAdmin), subscriptionController.checkActiveSubscription);

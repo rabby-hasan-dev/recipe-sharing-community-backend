@@ -5,6 +5,7 @@ import { subscriptionService } from './premium.service';
 
 const purchaseSubscription = catchAsync(async (req, res) => {
   const purchaseData = req.body;
+  // const currentUserId = req.body.userId;
   const currentUserId = req.user.userId;
 
   const result = await subscriptionService.createSubscriptionIntoDB(

@@ -7,6 +7,8 @@ import { JwtPayload } from 'jsonwebtoken';
 import { TUser } from './user.interface';
 
 import { TImageFile } from '../../interface/image.interface';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { UserSearchableFields, UserStatus } from './user.constant';
 
 const getMyProfileIntoDB = async (email: string, role: string) => {
   let result = null;
@@ -69,13 +71,50 @@ const getSingleUserFromDB = async (id: string) => {
   return result;
 };
 
+const getIsPrimiumUserFromDB = async (id: string) => {
+
+  console.log(id);
+  const userExists = User.findById(id);
+  if (!userExists) {
+    throw new Error("user not found");
+  }
+  const result = await User.findOne({ _id: id, isPremium: true });
+  console.log(result);
+  return result;
+};
+
+
+
+
+const getAllUsersFromDB = async (query: Record<string, unknown>) => {
+  const UserQuery = new QueryBuilder(User.find({ isDeleted: false, status: !UserStatus.BLOCKED }), query)
+    .search(UserSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const meta = await UserQuery.countTotal();
+  const result = await UserQuery.modelQuery;
+
+  return {
+    meta,
+    result,
+  };
+};
+
+
+
+
+
 
 
 export const UserServices = {
   updateUserDataIntoDB,
   getMyProfileIntoDB,
-
+  getAllUsersFromDB,
   getSingleUserFromDB,
+  getIsPrimiumUserFromDB
 
 };
 

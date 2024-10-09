@@ -28,5 +28,16 @@ router.put(
 router.get('/:userId', UserControllers.getSingleUser);
 
 
+router.get(
+  '/',
+  auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.superAdmin),
+  UserControllers.getAllUsers,
+);
+
+
+router.get(
+  '/is-primium/userId',
+  UserControllers.isPremium,
+);
 
 export const UsersRoutes = router;

@@ -22,7 +22,7 @@ const getAllPublicRecipeFromDB = async (query: Record<string, unknown>) => {
 
 
 const getAllPrimiumRecipeFromDB = async (query: Record<string, unknown>) => {
-    const UserQuery = new QueryBuilder(Recipe.find({ isDeleted: false }).populate('author'), query)
+    const UserQuery = new QueryBuilder(Recipe.find({ isPremium: true, isDeleted: false }).populate('author'), query)
         .search(recipeSearchableFields)
         .filter()
         .sort()
