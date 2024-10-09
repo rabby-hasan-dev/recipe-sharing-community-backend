@@ -53,7 +53,6 @@ const updateUserDataIntoDB = (user, payload, file) => __awaiter(void 0, void 0, 
     }
     try {
         const result = yield user_model_1.User.findOneAndUpdate({ email: email }, modifiedUpdatedData, { new: true });
-        console.log(result); // Check if result is updated
         // return result;
     }
     catch (err) {

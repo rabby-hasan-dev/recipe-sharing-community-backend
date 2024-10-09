@@ -100,6 +100,9 @@ const userSchema = new mongoose_1.Schema({
     },
 }, {
     timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
 });
 userSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -136,4 +139,8 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (passwordChangedT
 userSchema.methods.isPremiumActive = function () {
     return this.isPremium && this.premiumExpiresAt > Date.now();
 };
+userSchema.virtual('fullName').get(function () {
+    var _a, _b;
+    return `${(_a = this === null || this === void 0 ? void 0 : this.name) === null || _a === void 0 ? void 0 : _a.firstName} ${(_b = this === null || this === void 0 ? void 0 : this.name) === null || _b === void 0 ? void 0 : _b.lastName}`;
+});
 exports.User = (0, mongoose_1.model)('User', userSchema);

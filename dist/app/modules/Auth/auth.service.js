@@ -184,8 +184,6 @@ const forgetPassword = (userEmail) => __awaiter(void 0, void 0, void 0, function
     const resetToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, '10m');
     const resetUILink = `${config_1.default.reset_pass_ui_link}/reset-password?email=${user.email}&token=${resetToken} `;
     (0, sendEmail_1.sendEmail)(user.email, resetUILink);
-    // console.log(resetUILink);
-    //localhost:3000?email=email&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJBLTAwMDEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDI4NTA2MTcsImV4cCI6MTcwMjg1MTIxN30.-T90nRaz8-KouKki1DkCSMAbsHyb9yDi0djZU3D6QO4
 });
 const resetPassword = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     // checking if the user is exist

@@ -1,5 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
-
+import express from 'express';
 import { RecipeControllers } from './recipe.controller';
 import validateRequest from '../../middlewares/validateRequest';
 import { recipeValidator } from './recipe.validation';
@@ -18,7 +17,9 @@ router.post(
   validateRequest(recipeValidator.RecipeValidationSchema),
   RecipeControllers.createRecipe,
 );
-router.get('/', RecipeControllers.getAllRecipes);
+router.get('/',
+  auth(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
+  RecipeControllers.getAllRecipes);
 router.get(
   '/:recipeId',
   auth(USER_ROLE.user, USER_ROLE.admin),

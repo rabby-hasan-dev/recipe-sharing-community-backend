@@ -8,6 +8,7 @@ const follow_route_1 = require("../modules/Follow/follow.route");
 const premium_route_1 = require("../modules/PremiumMemberShipSubscription/premium.route");
 const recipe_route_1 = require("../modules/Recipe/recipe.route");
 const social_route_1 = require("../modules/SocialConectivity/social.route");
+const feed_route_1 = require("../modules/Feed/feed.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -33,6 +34,10 @@ const moduleRoutes = [
     {
         path: '/recipes',
         route: recipe_route_1.RecipeRoutes,
+    },
+    {
+        path: '/feed',
+        route: feed_route_1.FeedRoutes,
     },
     {
         path: '/social-conectivity',

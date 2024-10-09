@@ -101,7 +101,11 @@ const userSchema = new Schema<TUser, UserModel>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   },
+
 );
 
 userSchema.pre('save', async function (next) {
@@ -147,5 +151,10 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
 userSchema.methods.isPremiumActive = function () {
   return this.isPremium && this.premiumExpiresAt > Date.now();
 };
+
+userSchema.virtual('fullName').get(function () {
+  return `${this?.name?.firstName} ${this?.name?.lastName}`;
+})
+
 
 export const User = model<TUser, UserModel>('User', userSchema);

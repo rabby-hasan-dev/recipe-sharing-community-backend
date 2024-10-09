@@ -23,7 +23,6 @@ const createRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     if (!req.files) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Please upload an image!');
     }
-    console.log('inside recipe controller=>', req.body);
     const recipedata = req.body;
     const files = req.files;
     const userId = (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.userId;

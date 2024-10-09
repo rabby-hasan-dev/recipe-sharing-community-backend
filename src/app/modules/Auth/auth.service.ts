@@ -268,8 +268,7 @@ const forgetPassword = async (userEmail: string) => {
 
   sendEmail(user.email, resetUILink);
 
-  // console.log(resetUILink);
-  //localhost:3000?email=email&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJBLTAwMDEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDI4NTA2MTcsImV4cCI6MTcwMjg1MTIxN30.-T90nRaz8-KouKki1DkCSMAbsHyb9yDi0djZU3D6QO4
+
 };
 
 const resetPassword = async (

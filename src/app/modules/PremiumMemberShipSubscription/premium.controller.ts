@@ -7,8 +7,6 @@ const purchaseSubscription = catchAsync(async (req, res) => {
   const purchaseData = req.body;
   const currentUserId = req.user.userId;
 
-  console.log(req.body)
-
   const result = await subscriptionService.createSubscriptionIntoDB(
     currentUserId,
     purchaseData,

@@ -1,5 +1,4 @@
 
-
 # Recipe Sharing Community - API Endpoints
 
 ## Authentication & User Management

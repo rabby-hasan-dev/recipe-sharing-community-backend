@@ -20,7 +20,6 @@ const premium_service_1 = require("./premium.service");
 const purchaseSubscription = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const purchaseData = req.body;
     const currentUserId = req.user.userId;
-    console.log(req.body);
     const result = yield premium_service_1.subscriptionService.createSubscriptionIntoDB(currentUserId, purchaseData);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
