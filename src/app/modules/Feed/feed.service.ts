@@ -4,7 +4,7 @@ import { recipeSearchableFields } from "./feed.constant";
 
 
 const getAllPublicRecipeFromDB = async (query: Record<string, unknown>) => {
-    const UserQuery = new QueryBuilder(Recipe.find({ isPremium: false, isDeleted: false }).populate('author'), query)
+    const UserQuery = new QueryBuilder(Recipe.find({ isPremium: false, isDeleted: false }).populate('author').lean(), query)
         .search(recipeSearchableFields)
         .filter()
         .sort()

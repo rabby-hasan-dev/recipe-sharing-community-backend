@@ -28,6 +28,8 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const constant_1 = require("../../constant");
 const user_model_1 = require("./user.model");
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const user_constant_1 = require("./user.constant");
 const getMyProfileIntoDB = (email, role) => __awaiter(void 0, void 0, void 0, function* () {
     let result = null;
     if (role === constant_1.USER_ROLE.user) {
@@ -63,8 +65,34 @@ const getSingleUserFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
     const result = yield user_model_1.User.findById(id);
     return result;
 });
+const getIsPrimiumUserFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+
+    const userExists = user_model_1.User.findById(id);
+    if (!userExists) {
+        throw new Error("user not found");
+    }
+    const result = yield user_model_1.User.findOne({ _id: id, isPremium: true });
+
+    return result;
+});
+const getAllUsersFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const UserQuery = new QueryBuilder_1.default(user_model_1.User.find({ isDeleted: false, status: !user_constant_1.UserStatus.BLOCKED }), query)
+        .search(user_constant_1.UserSearchableFields)
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const meta = yield UserQuery.countTotal();
+    const result = yield UserQuery.modelQuery;
+    return {
+        meta,
+        result,
+    };
+});
 exports.UserServices = {
     updateUserDataIntoDB,
     getMyProfileIntoDB,
+    getAllUsersFromDB,
     getSingleUserFromDB,
+    getIsPrimiumUserFromDB
 };

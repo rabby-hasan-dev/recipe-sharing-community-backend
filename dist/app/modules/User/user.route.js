@@ -18,4 +18,6 @@ router.put('/me', (0, auth_1.default)(constant_1.USER_ROLE.user, constant_1.USER
     next();
 }, (0, validateRequest_1.default)(user_validation_1.UserValidation.userUpdateValidationSchema), user_controller_1.UserControllers.UpdateMyProfile);
 router.get('/:userId', user_controller_1.UserControllers.getSingleUser);
+router.get('/', (0, auth_1.default)(constant_1.USER_ROLE.user, constant_1.USER_ROLE.admin, constant_1.USER_ROLE.superAdmin), user_controller_1.UserControllers.getAllUsers);
+router.get('/is-primium/userId', user_controller_1.UserControllers.isPremium);
 exports.UsersRoutes = router;

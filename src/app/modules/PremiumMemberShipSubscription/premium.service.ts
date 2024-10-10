@@ -61,6 +61,7 @@ const createSubscriptionIntoDB = async (
   return paymentSession;
 };
 
+
 const paymentConfirmationService = async (
   transactionId: string,
   status: string,
@@ -90,7 +91,7 @@ const paymentConfirmationService = async (
     // update user memberShip confirm  status
     await User.findOneAndUpdate(
       { email: verifyResponse?.cus_email },
-      { isPremium: true, membershipExpiration: expirationDate?.endDate },
+      { isPremium: true, premiumExpiresAt: expirationDate?.endDate },
       { new: true, session },
     );
 

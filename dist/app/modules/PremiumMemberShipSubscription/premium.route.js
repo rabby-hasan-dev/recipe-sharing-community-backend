@@ -12,7 +12,7 @@ const router = express_1.default.Router();
 // Route to purchase a new subscription
 router.post('/purchase', (0, auth_1.default)(constant_1.USER_ROLE.user), premium_controller_1.subscriptionController.purchaseSubscription);
 // Route to confirm payment
-router.post('/confirm', (0, auth_1.default)(constant_1.USER_ROLE.user), premium_controller_1.subscriptionController.confirmPayment);
+router.post('/confirm', premium_controller_1.subscriptionController.confirmPayment);
 // Route to check if the user has an active subscription
 router.get('/active', (0, auth_1.default)(constant_1.USER_ROLE.user, constant_1.USER_ROLE.admin, constant_1.USER_ROLE.superAdmin), premium_controller_1.subscriptionController.checkActiveSubscription);
 router.get('/subscriber', (0, auth_1.default)(constant_1.USER_ROLE.admin, constant_1.USER_ROLE.superAdmin), premium_controller_1.subscriptionController.getAllSubscriberMember);

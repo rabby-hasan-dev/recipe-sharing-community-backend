@@ -66,7 +66,7 @@ const getSingleUser = catchAsync(async (req, res) => {
 const isPremium = catchAsync(async (req, res) => {
 
   const { userId } = req.params;
-  console.log(userId);
+
   const result = await UserServices.getIsPrimiumUserFromDB(userId);
 
   sendResponse(res, {

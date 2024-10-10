@@ -5,6 +5,4 @@ exports.recipeSearchableFields = [
     'description',
     'title',
     'ingredients',
-    'cookingTime',
-    'author'
 ];

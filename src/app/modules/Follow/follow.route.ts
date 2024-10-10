@@ -7,12 +7,12 @@ const router = express.Router();
 
 router.post(
   '/follow/:userId',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.user, USER_ROLE.admin),
   followController.followUser,
 );
 router.post(
   '/unfollow/:userId',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.user, USER_ROLE.admin),
   followController.unfollowUser,
 );
 

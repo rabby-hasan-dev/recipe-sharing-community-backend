@@ -22,13 +22,13 @@ router.get('/',
   RecipeControllers.getAllRecipes);
 router.get(
   '/:recipeId',
-  auth(USER_ROLE.user, USER_ROLE.admin),
+
   RecipeControllers.getSingleRecipe,
 );
 
 router.put(
   '/:recipeId',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.user, USER_ROLE.admin),
   multerUpload.fields([{ name: 'file' }]),
   parseBody,
   validateRequest(recipeValidator.UpdatedRecipeValidationSchema),

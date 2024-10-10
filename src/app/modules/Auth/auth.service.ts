@@ -19,11 +19,11 @@ const signUpUserIntoDB = async (file: TImageFile, payload: TUser) => {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is already exist!');
   }
 
+
   const userData: TUser = {
     ...payload,
     profilePicture: file.path,
   };
-
   //create new user
   const newUser = await User.create(userData);
 

@@ -31,7 +31,7 @@ const getAllPublicRecipeFromDB = (query) => __awaiter(void 0, void 0, void 0, fu
     };
 });
 const getAllPrimiumRecipeFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const UserQuery = new QueryBuilder_1.default(recipe_model_1.Recipe.find({ isDeleted: false }).populate('author'), query)
+    const UserQuery = new QueryBuilder_1.default(recipe_model_1.Recipe.find({ isPremium: true, isDeleted: false }).populate('author'), query)
         .search(feed_constant_1.recipeSearchableFields)
         .filter()
         .sort()

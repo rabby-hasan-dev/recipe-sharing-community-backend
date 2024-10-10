@@ -29,6 +29,7 @@ const CreateRecipeIntoDB = async (
   payload: IRecipe,
   files: TImageFiles,
 ) => {
+
   const authorId = new mongoose.Types.ObjectId(userId);
   const { file } = files;
   const recipeData: IRecipe = {
@@ -36,7 +37,9 @@ const CreateRecipeIntoDB = async (
     author: authorId,
     images: file.map((image) => image.path),
   };
+
   const result = await Recipe.create(recipeData);
+
   return result;
 };
 

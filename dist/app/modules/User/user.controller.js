@@ -17,6 +17,16 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const user_service_1 = require("./user.service");
+const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_service_1.UserServices.getAllUsersFromDB(req.query);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'User are retrieved succesfully',
+        meta: result.meta,
+        data: result.result,
+    });
+}));
 const getMyProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, role } = req.user;
     const result = yield user_service_1.UserServices.getMyProfileIntoDB(email, role);
@@ -49,8 +59,21 @@ const getSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result,
     });
 }));
+const isPremium = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+
+    const result = yield user_service_1.UserServices.getIsPrimiumUserFromDB(userId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'User is ',
+        data: result,
+    });
+}));
 exports.UserControllers = {
     UpdateMyProfile,
     getMyProfile,
     getSingleUser,
+    getAllUsers,
+    isPremium
 };

@@ -12,9 +12,11 @@ const createRecipe = catchAsync(async (req, res) => {
   }
 
 
+
+
   const recipedata = req.body;
   const files = req.files;
-  const userId = req?.user?.userId;
+  const userId = req.user.userId;
   const result = await RecipeServices.CreateRecipeIntoDB(
     userId,
     recipedata,

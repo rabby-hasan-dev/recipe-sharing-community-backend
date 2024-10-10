@@ -12,7 +12,7 @@ import { UserSearchableFields, UserStatus } from './user.constant';
 
 const getMyProfileIntoDB = async (email: string, role: string) => {
   let result = null;
-  if (role === USER_ROLE.user) {
+  if (role === USER_ROLE.user || role === USER_ROLE.admin) {
     result = await User.findOne({ email: email });
   }
   return result;
@@ -73,13 +73,13 @@ const getSingleUserFromDB = async (id: string) => {
 
 const getIsPrimiumUserFromDB = async (id: string) => {
 
-  console.log(id);
+
   const userExists = User.findById(id);
   if (!userExists) {
     throw new Error("user not found");
   }
   const result = await User.findOne({ _id: id, isPremium: true });
-  console.log(result);
+
   return result;
 };
 
