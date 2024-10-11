@@ -43,8 +43,15 @@ const CreateRecipeIntoDB = async (
   return result;
 };
 
+
 const getSingleRecipeFromDB = async (id: string) => {
+
   const result = await Recipe.findById(id);
+  return result;
+};
+
+const getAllRecipeByAuthorFromDB = async (id: string) => {
+  const result = await Recipe.find({ author: id, isDeleted: false });
   return result;
 };
 
@@ -88,4 +95,5 @@ export const RecipeServices = {
   getSingleRecipeFromDB,
   updateRecipeIntoDB,
   deleteRecipeFromDB,
+  getAllRecipeByAuthorFromDB
 };

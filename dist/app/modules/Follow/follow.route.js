@@ -9,6 +9,6 @@ const follow_controller_1 = require("./follow.controller");
 const auth_1 = __importDefault(require("../../middlewares/auth"));
 const constant_1 = require("../../constant");
 const router = express_1.default.Router();
-router.post('/follow/:userId', (0, auth_1.default)(constant_1.USER_ROLE.user), follow_controller_1.followController.followUser);
-router.post('/unfollow/:userId', (0, auth_1.default)(constant_1.USER_ROLE.user), follow_controller_1.followController.unfollowUser);
+router.post('/follow/:userId', (0, auth_1.default)(constant_1.USER_ROLE.user, constant_1.USER_ROLE.admin), follow_controller_1.followController.followUser);
+router.post('/unfollow/:userId', (0, auth_1.default)(constant_1.USER_ROLE.user, constant_1.USER_ROLE.admin), follow_controller_1.followController.unfollowUser);
 exports.FollowRoutes = router;

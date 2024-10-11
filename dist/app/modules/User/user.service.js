@@ -32,7 +32,7 @@ const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const user_constant_1 = require("./user.constant");
 const getMyProfileIntoDB = (email, role) => __awaiter(void 0, void 0, void 0, function* () {
     let result = null;
-    if (role === constant_1.USER_ROLE.user) {
+    if (role === constant_1.USER_ROLE.user || role === constant_1.USER_ROLE.admin) {
         result = yield user_model_1.User.findOne({ email: email });
     }
     return result;
@@ -66,13 +66,11 @@ const getSingleUserFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
     return result;
 });
 const getIsPrimiumUserFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-
     const userExists = user_model_1.User.findById(id);
     if (!userExists) {
         throw new Error("user not found");
     }
     const result = yield user_model_1.User.findOne({ _id: id, isPremium: true });
-
     return result;
 });
 const getAllUsersFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {

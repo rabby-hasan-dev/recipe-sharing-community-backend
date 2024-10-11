@@ -41,6 +41,14 @@ router.post(
 
 router.post(
   '/refresh-token',
+  (req, res, next) => {
+
+    // console.log(typeof (req.cookies.refreshToken))
+
+    // console.log('check on middleware', req.cookies);
+    next();
+
+  },
   validateRequest(AuthValidation.refreshTokenValidationSchema),
   AuthControllers.refreshToken,
 );

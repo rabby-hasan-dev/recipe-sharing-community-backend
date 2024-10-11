@@ -17,7 +17,7 @@ const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const recipe_model_1 = require("../Recipe/recipe.model");
 const feed_constant_1 = require("./feed.constant");
 const getAllPublicRecipeFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const UserQuery = new QueryBuilder_1.default(recipe_model_1.Recipe.find({ isPremium: false, isDeleted: false }).populate('author'), query)
+    const UserQuery = new QueryBuilder_1.default(recipe_model_1.Recipe.find({ isPremium: false, isDeleted: false }).populate('author').lean(), query)
         .search(feed_constant_1.recipeSearchableFields)
         .filter()
         .sort()

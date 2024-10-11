@@ -113,6 +113,8 @@ const loginUser = async (payload: TLoginUser) => {
     config.jwt_refresh_expires_in as string,
   );
 
+
+
   return {
     accessToken,
     refreshToken,
@@ -266,7 +268,7 @@ const forgetPassword = async (userEmail: string) => {
 
   const resetUILink = `${config.reset_pass_ui_link}/reset-password?email=${user.email}&token=${resetToken} `;
 
-  sendEmail(user.email, resetUILink);
+  await sendEmail(user.email, resetUILink);
 
 
 };

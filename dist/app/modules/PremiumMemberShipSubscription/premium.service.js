@@ -76,7 +76,7 @@ const paymentConfirmationService = (transactionId, status) => __awaiter(void 0, 
             "paymentDetails.transactionId": transactionId
         });
         // update user memberShip confirm  status
-        yield user_model_1.User.findOneAndUpdate({ email: verifyResponse === null || verifyResponse === void 0 ? void 0 : verifyResponse.cus_email }, { isPremium: true, membershipExpiration: expirationDate === null || expirationDate === void 0 ? void 0 : expirationDate.endDate }, { new: true, session });
+        yield user_model_1.User.findOneAndUpdate({ email: verifyResponse === null || verifyResponse === void 0 ? void 0 : verifyResponse.cus_email }, { isPremium: true, premiumExpiresAt: expirationDate === null || expirationDate === void 0 ? void 0 : expirationDate.endDate }, { new: true, session });
         yield session.commitTransaction();
         //  extract payment  info
         const extractPaymentData = {

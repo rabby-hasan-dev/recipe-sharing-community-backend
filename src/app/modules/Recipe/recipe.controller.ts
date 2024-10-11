@@ -43,6 +43,7 @@ const getSingleRecipe = catchAsync(async (req, res) => {
 });
 
 const getAllRecipes: RequestHandler = catchAsync(async (req, res) => {
+
   const result = await RecipeServices.getAllRecipeFromDB(req.query);
 
   sendResponse(res, {
@@ -51,6 +52,19 @@ const getAllRecipes: RequestHandler = catchAsync(async (req, res) => {
     message: 'Recipe are retrieved succesfully',
     meta: result.meta,
     data: result.result,
+  });
+});
+
+const getAllRecipesByAuthor: RequestHandler = catchAsync(async (req, res) => {
+
+  const { userId } = req.params;
+  const result = await RecipeServices.getAllRecipeByAuthorFromDB(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Recipe are retrieved succesfully',
+    data: result,
   });
 });
 
@@ -90,4 +104,5 @@ export const RecipeControllers = {
   getSingleRecipe,
   deleteRecipe,
   updateRecipe,
+  getAllRecipesByAuthor
 };

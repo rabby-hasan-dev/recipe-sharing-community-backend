@@ -19,7 +19,8 @@ const sendEmail = (to, html) => __awaiter(void 0, void 0, void 0, function* () {
     const transporter = nodemailer_1.default.createTransport({
         host: 'smtp.gmail.com.',
         port: 587,
-        secure: config_1.default.NODE_ENV === 'production',
+        // secure: config.NODE_ENV === 'production',
+        secure: false,
         auth: {
             // TODO: replace `user` and `pass` values from <https://forwardemail.net>
             user: config_1.default.nodemailer_user_email,

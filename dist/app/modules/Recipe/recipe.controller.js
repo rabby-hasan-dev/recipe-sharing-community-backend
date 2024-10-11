@@ -19,13 +19,12 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const recipe_service_1 = require("./recipe.service");
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const createRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     if (!req.files) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Please upload an image!');
     }
     const recipedata = req.body;
     const files = req.files;
-    const userId = (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.userId;
+    const userId = req.user.userId;
     const result = yield recipe_service_1.RecipeServices.CreateRecipeIntoDB(userId, recipedata, files);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

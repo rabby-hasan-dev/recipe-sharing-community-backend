@@ -20,10 +20,17 @@ router.post(
 router.get('/',
   auth(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
   RecipeControllers.getAllRecipes);
+
 router.get(
   '/:recipeId',
 
   RecipeControllers.getSingleRecipe,
+);
+
+router.get(
+  '/author/:userId',
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  RecipeControllers.getAllRecipesByAuthor,
 );
 
 router.put(

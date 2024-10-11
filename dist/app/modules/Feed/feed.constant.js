@@ -4,5 +4,4 @@ exports.recipeSearchableFields = void 0;
 exports.recipeSearchableFields = [
     'description',
     'title',
-    'ingredients',
 ];
