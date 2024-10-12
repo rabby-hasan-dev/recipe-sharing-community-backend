@@ -3,7 +3,7 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import { recipeSearchableFields } from './recipe.constant';
 import { IRecipe } from './recipe.interface';
 import { Recipe } from './recipe.model';
-import { TImageFile, TImageFiles } from '../../interface/image.interface';
+import { TImageFiles } from '../../interface/image.interface';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 
@@ -51,7 +51,7 @@ const getSingleRecipeFromDB = async (id: string) => {
 };
 
 const getAllRecipeByAuthorFromDB = async (id: string) => {
-  const result = await Recipe.find({ author: id, isDeleted: false });
+  const result = await Recipe.find({ author: id, isDeleted: false }).populate('author');
   return result;
 };
 

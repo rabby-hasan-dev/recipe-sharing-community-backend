@@ -3,7 +3,7 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 
 import { User } from '../User/user.model';
-import { UserSearchableFields, UserStatus } from '../User/user.constant';
+import { UserSearchableFields } from '../User/user.constant';
 import { TUserStatus } from './admin.interface';
 import { Recipe } from '../Recipe/recipe.model';
 
@@ -38,7 +38,7 @@ const blockUserIntoDB = async (userId: string, updateStatus: TUserStatus) => {
 
   const blockUser = await User.findByIdAndUpdate(
     userId,
-    { status: updateStatus?.status || UserStatus.IN_PROGRESS },
+    { status: updateStatus?.status },
     { new: true },
   );
 
@@ -78,6 +78,7 @@ const premiumUsersFromDB = async () => {
   const isPrimumUser = await User.find({ isPremium: true });
   return isPrimumUser;
 };
+
 
 //  Do it After some minuite Better approch
 

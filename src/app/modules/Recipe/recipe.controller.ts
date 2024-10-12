@@ -42,6 +42,7 @@ const getSingleRecipe = catchAsync(async (req, res) => {
   });
 });
 
+
 const getAllRecipes: RequestHandler = catchAsync(async (req, res) => {
 
   const result = await RecipeServices.getAllRecipeFromDB(req.query);

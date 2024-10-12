@@ -13,11 +13,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({
-  origin: `${config.client_url_link}`,
-  credentials: true, // Allow cookies to be sent
-}));
-// app.use(cors({ origin: [`${config.client_url_link}`], credentials: true }));
+app.use(cors({ origin: [`${config.client_url_link}`], credentials: true }));
 // app.use(cors());
 
 // application routes

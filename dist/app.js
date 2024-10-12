@@ -14,11 +14,7 @@ const app = (0, express_1.default)();
 //parsers
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
-app.use((0, cors_1.default)({
-    origin: `${config_1.default.client_url_link}`,
-    credentials: true, // Allow cookies to be sent
-}));
-// app.use(cors({ origin: [`${config.client_url_link}`], credentials: true }));
+app.use((0, cors_1.default)({ origin: [`${config_1.default.client_url_link}`], credentials: true }));
 // app.use(cors());
 // application routes
 app.use('/api/v1', routes_1.default);

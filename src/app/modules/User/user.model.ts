@@ -108,6 +108,25 @@ const userSchema = new Schema<TUser, UserModel>(
 
 );
 
+
+
+// Query Middleware
+userSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+userSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+userSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+
+
 userSchema.pre('save', async function (next) {
   const user = this; // doc
   // hashing password and save into DB

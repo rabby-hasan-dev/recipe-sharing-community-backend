@@ -16,6 +16,7 @@ const router = express_1.default.Router();
 router.post('/', (0, auth_1.default)(constant_1.USER_ROLE.user), multer_config_1.multerUpload.fields([{ name: 'file' }]), bodyparser_1.parseBody, (0, validateRequest_1.default)(recipe_validation_1.recipeValidator.RecipeValidationSchema), recipe_controller_1.RecipeControllers.createRecipe);
 router.get('/', (0, auth_1.default)(constant_1.USER_ROLE.admin, constant_1.USER_ROLE.user, constant_1.USER_ROLE.superAdmin), recipe_controller_1.RecipeControllers.getAllRecipes);
 router.get('/:recipeId', recipe_controller_1.RecipeControllers.getSingleRecipe);
+router.get('/author/:userId', (0, auth_1.default)(constant_1.USER_ROLE.admin, constant_1.USER_ROLE.user), recipe_controller_1.RecipeControllers.getAllRecipesByAuthor);
 router.put('/:recipeId', (0, auth_1.default)(constant_1.USER_ROLE.user, constant_1.USER_ROLE.admin), multer_config_1.multerUpload.fields([{ name: 'file' }]), bodyparser_1.parseBody, (0, validateRequest_1.default)(recipe_validation_1.recipeValidator.UpdatedRecipeValidationSchema), recipe_controller_1.RecipeControllers.updateRecipe);
 router.delete('/:recipeId', (0, auth_1.default)(constant_1.USER_ROLE.admin, constant_1.USER_ROLE.user, constant_1.USER_ROLE.superAdmin), recipe_controller_1.RecipeControllers.deleteRecipe);
 exports.RecipeRoutes = router;

@@ -44,6 +44,10 @@ const getSingleRecipeFromDB = (id) => __awaiter(void 0, void 0, void 0, function
     const result = yield recipe_model_1.Recipe.findById(id);
     return result;
 });
+const getAllRecipeByAuthorFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield recipe_model_1.Recipe.find({ author: id, isDeleted: false });
+    return result;
+});
 const updateRecipeIntoDB = (id, payload, files) => __awaiter(void 0, void 0, void 0, function* () {
     const { file } = files;
     if (files.length) {
@@ -72,4 +76,5 @@ exports.RecipeServices = {
     getSingleRecipeFromDB,
     updateRecipeIntoDB,
     deleteRecipeFromDB,
+    getAllRecipeByAuthorFromDB
 };

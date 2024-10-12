@@ -71,6 +71,7 @@ const getSingleUserFromDB = async (id: string) => {
   return result;
 };
 
+
 const getIsPrimiumUserFromDB = async (id: string) => {
 
 
@@ -84,10 +85,11 @@ const getIsPrimiumUserFromDB = async (id: string) => {
 };
 
 
+// { status: !UserStatus.BLOCKED }
 
 
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
-  const UserQuery = new QueryBuilder(User.find({ isDeleted: false, status: !UserStatus.BLOCKED }), query)
+  const UserQuery = new QueryBuilder(User.find(), query)
     .search(UserSearchableFields)
     .filter()
     .sort()
