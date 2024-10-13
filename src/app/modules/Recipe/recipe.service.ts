@@ -29,7 +29,6 @@ const CreateRecipeIntoDB = async (
   payload: IRecipe,
   files: TImageFiles,
 ) => {
-
   const authorId = new mongoose.Types.ObjectId(userId);
   const { file } = files;
   const recipeData: IRecipe = {
@@ -43,15 +42,15 @@ const CreateRecipeIntoDB = async (
   return result;
 };
 
-
 const getSingleRecipeFromDB = async (id: string) => {
-
   const result = await Recipe.findById(id);
   return result;
 };
 
 const getAllRecipeByAuthorFromDB = async (id: string) => {
-  const result = await Recipe.find({ author: id, isDeleted: false }).populate('author');
+  const result = await Recipe.find({ author: id, isDeleted: false }).populate(
+    'author',
+  );
   return result;
 };
 
@@ -73,10 +72,9 @@ const updateRecipeIntoDB = async (
 };
 
 const deleteRecipeFromDB = async (id: string) => {
-
-  const isRecipeExists = await Recipe.isRecipeExists(id)
+  const isRecipeExists = await Recipe.isRecipeExists(id);
   if (!isRecipeExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Recipe not found!')
+    throw new AppError(httpStatus.NOT_FOUND, 'Recipe not found!');
   }
   const result = await Recipe.findByIdAndUpdate(
     id,
@@ -95,5 +93,5 @@ export const RecipeServices = {
   getSingleRecipeFromDB,
   updateRecipeIntoDB,
   deleteRecipeFromDB,
-  getAllRecipeByAuthorFromDB
+  getAllRecipeByAuthorFromDB,
 };

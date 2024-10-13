@@ -55,10 +55,9 @@ const createAdminIntoDB = async (id: string, role: string) => {
 };
 
 const publishRecipeIntoDB = async (recipeId: string) => {
-
-  const isRecipeExists = await Recipe.isRecipeExists(recipeId)
+  const isRecipeExists = await Recipe.isRecipeExists(recipeId);
   if (!isRecipeExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Recipe not found!')
+    throw new AppError(httpStatus.NOT_FOUND, 'Recipe not found!');
   }
   // If the recipe exists, toggle the isPublished field
   if (isRecipeExists) {
@@ -69,16 +68,12 @@ const publishRecipeIntoDB = async (recipeId: string) => {
     );
     return publishRecipe;
   }
-
 };
-
-
 
 const premiumUsersFromDB = async () => {
   const isPrimumUser = await User.find({ isPremium: true });
   return isPrimumUser;
 };
-
 
 //  Do it After some minuite Better approch
 
@@ -104,5 +99,5 @@ export const AdminServices = {
   deleteUserFromDB,
   blockUserIntoDB,
   publishRecipeIntoDB,
-  premiumUsersFromDB
+  premiumUsersFromDB,
 };

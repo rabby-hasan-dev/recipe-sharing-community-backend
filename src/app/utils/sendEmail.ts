@@ -21,6 +21,4 @@ export const sendEmail = async (to: string, html: string) => {
     text: '', // plain text body
     html, // html body
   });
-
-
 };

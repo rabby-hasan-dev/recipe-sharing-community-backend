@@ -1,6 +1,1 @@
-export const recipeSearchableFields = [
-    'description',
-    'title',
-
-
-];
+export const recipeSearchableFields = ['description', 'title'];

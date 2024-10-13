@@ -73,8 +73,9 @@ const getIsPrimiumUserFromDB = (id) => __awaiter(void 0, void 0, void 0, functio
     const result = yield user_model_1.User.findOne({ _id: id, isPremium: true });
     return result;
 });
+// { status: !UserStatus.BLOCKED }
 const getAllUsersFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const UserQuery = new QueryBuilder_1.default(user_model_1.User.find({ isDeleted: false, status: !user_constant_1.UserStatus.BLOCKED }), query)
+    const UserQuery = new QueryBuilder_1.default(user_model_1.User.find(), query)
         .search(user_constant_1.UserSearchableFields)
         .filter()
         .sort()

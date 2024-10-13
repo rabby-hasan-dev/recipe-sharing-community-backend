@@ -73,11 +73,9 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     profilePicture: {
       type: String,
-
     },
     phone: {
       type: String,
-
     },
     address: {
       type: String,
@@ -105,10 +103,7 @@ const userSchema = new Schema<TUser, UserModel>(
       virtuals: true,
     },
   },
-
 );
-
-
 
 // Query Middleware
 userSchema.pre('find', function (next) {
@@ -125,7 +120,6 @@ userSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
-
 
 userSchema.pre('save', async function (next) {
   const user = this; // doc
@@ -173,7 +167,6 @@ userSchema.methods.isPremiumActive = function () {
 
 userSchema.virtual('fullName').get(function () {
   return `${this?.name?.firstName} ${this?.name?.lastName}`;
-})
-
+});
 
 export const User = model<TUser, UserModel>('User', userSchema);

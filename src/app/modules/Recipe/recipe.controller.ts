@@ -11,9 +11,6 @@ const createRecipe = catchAsync(async (req, res) => {
     throw new AppError(httpStatus.BAD_REQUEST, 'Please upload an image!');
   }
 
-
-
-
   const recipedata = req.body;
   const files = req.files;
   const userId = req.user.userId;
@@ -42,9 +39,7 @@ const getSingleRecipe = catchAsync(async (req, res) => {
   });
 });
 
-
 const getAllRecipes: RequestHandler = catchAsync(async (req, res) => {
-
   const result = await RecipeServices.getAllRecipeFromDB(req.query);
 
   sendResponse(res, {
@@ -57,7 +52,6 @@ const getAllRecipes: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const getAllRecipesByAuthor: RequestHandler = catchAsync(async (req, res) => {
-
   const { userId } = req.params;
   const result = await RecipeServices.getAllRecipeByAuthorFromDB(userId);
 
@@ -105,5 +99,5 @@ export const RecipeControllers = {
   getSingleRecipe,
   deleteRecipe,
   updateRecipe,
-  getAllRecipesByAuthor
+  getAllRecipesByAuthor,
 };

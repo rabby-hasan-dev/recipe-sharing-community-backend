@@ -45,7 +45,7 @@ const getSingleRecipeFromDB = (id) => __awaiter(void 0, void 0, void 0, function
     return result;
 });
 const getAllRecipeByAuthorFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield recipe_model_1.Recipe.find({ author: id, isDeleted: false });
+    const result = yield recipe_model_1.Recipe.find({ author: id, isDeleted: false }).populate('author');
     return result;
 });
 const updateRecipeIntoDB = (id, payload, files) => __awaiter(void 0, void 0, void 0, function* () {

@@ -1,5 +1,4 @@
-import { UserStatusEnum } from "../User/user.interface";
-
+import { UserStatusEnum } from '../User/user.interface';
 
 export interface TUserStatus {
   status: UserStatusEnum;

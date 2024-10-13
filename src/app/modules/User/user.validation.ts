@@ -18,12 +18,14 @@ const userUpdateNameSchema = z.object({
     .string()
     .min(1, 'First Name is required')
     .max(20, 'Name cannot be more than 20 characters')
-    .trim().optional(),
+    .trim()
+    .optional(),
   lastName: z
     .string()
     .min(1, 'Last Name is required')
     .max(20, 'Name cannot be more than 20 characters')
-    .trim().optional(),
+    .trim()
+    .optional(),
 });
 
 // const imageFileSchema = z.object({
@@ -53,8 +55,6 @@ const userValidationSchema = z.object({
   }),
 });
 
-
-
 const userUpdateValidationSchema = z.object({
   body: z.object({
     name: userUpdateNameSchema.optional(),
@@ -63,7 +63,6 @@ const userUpdateValidationSchema = z.object({
     address: z.string().optional(),
   }),
 });
-
 
 const changeStatusValidationSchema = z.object({
   body: z.object({

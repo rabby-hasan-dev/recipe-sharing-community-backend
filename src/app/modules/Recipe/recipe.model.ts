@@ -13,10 +13,12 @@ const RecipeSchema = new Schema<IRecipe, RecipeModel>(
       required: [true, 'Description is required'],
       trim: true,
     },
-    images: [{
-      type: String,
-      required: [true, 'Image is required'],
-    }],
+    images: [
+      {
+        type: String,
+        required: [true, 'Image is required'],
+      },
+    ],
     ingredients: {
       type: [String], // Array of ingredients
       required: [true, 'Ingredients are required'],

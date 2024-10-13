@@ -61,7 +61,6 @@ const rateAndCalculateAverage = async (
     const averageRating = ratingsData[0]?.averageRating || 0;
     const totalRatings = ratingsData[0]?.totalRatings || 0;
 
-
     await Recipe.findByIdAndUpdate(
       recipeId,
       { averageRating, totalRatings },
@@ -179,7 +178,9 @@ const deleteRecipeCommentFromDB = async (
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const deleteComment = await Comment.findByIdAndDelete(commentId, { session });
+    const deleteComment = await Comment.findByIdAndDelete(commentId, {
+      session,
+    });
 
     // Check if the Recipe exists
     const recipe = await Recipe.findById(recipeId).session(session); // Ensure session is used for the query

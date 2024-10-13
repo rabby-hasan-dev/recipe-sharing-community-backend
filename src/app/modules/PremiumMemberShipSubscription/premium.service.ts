@@ -61,7 +61,6 @@ const createSubscriptionIntoDB = async (
   return paymentSession;
 };
 
-
 const paymentConfirmationService = async (
   transactionId: string,
   status: string,
@@ -78,16 +77,15 @@ const paymentConfirmationService = async (
   try {
     // update subcription payment  status
     await Subscription.findOneAndUpdate(
-      { "paymentDetails.transactionId": transactionId },
+      { 'paymentDetails.transactionId': transactionId },
       { status: 'active' },
       { new: true, session },
     );
 
     //  Expiration date retirive from sunscription
     const expirationDate = await Subscription.findOne({
-      "paymentDetails.transactionId":
-        transactionId
-    })
+      'paymentDetails.transactionId': transactionId,
+    });
     // update user memberShip confirm  status
     await User.findOneAndUpdate(
       { email: verifyResponse?.cus_email },
@@ -146,7 +144,7 @@ const isSubscriptionActive = async (currentUserId: string) => {
 
 // Check if the user's subscription is active
 const getSubscriberMemberIntoDB = async () => {
-  const subscription = await Subscription.find({})
+  const subscription = await Subscription.find({});
   return subscription;
 };
 
@@ -154,5 +152,5 @@ export const subscriptionService = {
   createSubscriptionIntoDB,
   paymentConfirmationService,
   isSubscriptionActive,
-  getSubscriberMemberIntoDB
+  getSubscriberMemberIntoDB,
 };

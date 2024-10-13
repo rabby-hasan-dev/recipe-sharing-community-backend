@@ -42,7 +42,7 @@ const blockUserIntoDB = (userId, updateStatus) => __awaiter(void 0, void 0, void
     if (!userExists) {
         throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'User not Found');
     }
-    const blockUser = yield user_model_1.User.findByIdAndUpdate(userId, { status: (updateStatus === null || updateStatus === void 0 ? void 0 : updateStatus.status) || user_constant_1.UserStatus.IN_PROGRESS }, { new: true });
+    const blockUser = yield user_model_1.User.findByIdAndUpdate(userId, { status: updateStatus === null || updateStatus === void 0 ? void 0 : updateStatus.status }, { new: true });
     return blockUser;
 });
 const createAdminIntoDB = (id, role) => __awaiter(void 0, void 0, void 0, function* () {

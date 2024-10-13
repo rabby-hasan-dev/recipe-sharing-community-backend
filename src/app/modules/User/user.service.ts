@@ -45,48 +45,35 @@ const updateUserDataIntoDB = async (
     }
   }
 
-
-
   try {
     const result = await User.findOneAndUpdate(
       { email: email },
       modifiedUpdatedData,
-      { new: true }
+      { new: true },
     );
 
     // return result;
   } catch (err) {
-    console.error("Update error:", err); // Catch and log any errors
+    console.error('Update error:', err); // Catch and log any errors
   }
-
-
-
-
 };
-
-
 
 const getSingleUserFromDB = async (id: string) => {
   const result = await User.findById(id);
   return result;
 };
 
-
 const getIsPrimiumUserFromDB = async (id: string) => {
-
-
   const userExists = User.findById(id);
   if (!userExists) {
-    throw new Error("user not found");
+    throw new Error('user not found');
   }
   const result = await User.findOne({ _id: id, isPremium: true });
 
   return result;
 };
 
-
 // { status: !UserStatus.BLOCKED }
-
 
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   const UserQuery = new QueryBuilder(User.find(), query)
@@ -105,19 +92,10 @@ const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-
-
-
-
-
-
 export const UserServices = {
   updateUserDataIntoDB,
   getMyProfileIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
-  getIsPrimiumUserFromDB
-
+  getIsPrimiumUserFromDB,
 };
-
-
