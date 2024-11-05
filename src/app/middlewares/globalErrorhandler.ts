@@ -14,7 +14,9 @@ const globalErrorHandler: ErrorRequestHandler = async (
   err,
   req,
   res,
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   next,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> => {
   //setting default values
   let statusCode = 500;

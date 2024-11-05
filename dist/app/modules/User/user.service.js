@@ -58,7 +58,7 @@ const updateUserDataIntoDB = (user, payload, file) => __awaiter(void 0, void 0, 
         // return result;
     }
     catch (err) {
-        console.error("Update error:", err); // Catch and log any errors
+        console.error('Update error:', err); // Catch and log any errors
     }
 });
 const getSingleUserFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -68,7 +68,7 @@ const getSingleUserFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
 const getIsPrimiumUserFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const userExists = user_model_1.User.findById(id);
     if (!userExists) {
-        throw new Error("user not found");
+        throw new Error('user not found');
     }
     const result = yield user_model_1.User.findOne({ _id: id, isPremium: true });
     return result;
@@ -93,5 +93,5 @@ exports.UserServices = {
     getMyProfileIntoDB,
     getAllUsersFromDB,
     getSingleUserFromDB,
-    getIsPrimiumUserFromDB
+    getIsPrimiumUserFromDB,
 };

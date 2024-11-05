@@ -19,12 +19,14 @@ const userUpdateNameSchema = zod_1.z.object({
         .string()
         .min(1, 'First Name is required')
         .max(20, 'Name cannot be more than 20 characters')
-        .trim().optional(),
+        .trim()
+        .optional(),
     lastName: zod_1.z
         .string()
         .min(1, 'Last Name is required')
         .max(20, 'Name cannot be more than 20 characters')
-        .trim().optional(),
+        .trim()
+        .optional(),
 });
 // const imageFileSchema = z.object({
 //   fieldname: z.string().min(1, 'Fieldname is required'),

@@ -91,5 +91,5 @@ exports.RecipeControllers = {
     getSingleRecipe,
     deleteRecipe,
     updateRecipe,
-    getAllRecipesByAuthor
+    getAllRecipesByAuthor,
 };

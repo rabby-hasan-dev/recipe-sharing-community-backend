@@ -39,5 +39,5 @@ const getAllPrimiumRecipes = (0, catchAsync_1.default)((req, res) => __awaiter(v
 }));
 exports.FeedController = {
     getAllPublicRecipes,
-    getAllPrimiumRecipes
+    getAllPrimiumRecipes,
 };

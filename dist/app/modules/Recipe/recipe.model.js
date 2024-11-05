@@ -22,10 +22,12 @@ const RecipeSchema = new mongoose_1.Schema({
         required: [true, 'Description is required'],
         trim: true,
     },
-    images: [{
+    images: [
+        {
             type: String,
             required: [true, 'Image is required'],
-        }],
+        },
+    ],
     ingredients: {
         type: [String], // Array of ingredients
         required: [true, 'Ingredients are required'],

@@ -8,7 +8,7 @@ import { TUser } from './user.interface';
 
 import { TImageFile } from '../../interface/image.interface';
 import QueryBuilder from '../../builder/QueryBuilder';
-import { UserSearchableFields, UserStatus } from './user.constant';
+import { UserSearchableFields } from './user.constant';
 
 const getMyProfileIntoDB = async (email: string, role: string) => {
   let result = null;
@@ -52,8 +52,9 @@ const updateUserDataIntoDB = async (
       { new: true },
     );
 
-    // return result;
+    return result;
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error('Update error:', err); // Catch and log any errors
   }
 };

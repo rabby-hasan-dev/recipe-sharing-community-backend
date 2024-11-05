@@ -129,7 +129,9 @@ const deleteRecipeCommentFromDB = (recipeId, commentId) => __awaiter(void 0, voi
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
-        const deleteComment = yield social_model_1.Comment.findByIdAndDelete(commentId, { session });
+        const deleteComment = yield social_model_1.Comment.findByIdAndDelete(commentId, {
+            session,
+        });
         // Check if the Recipe exists
         const recipe = yield recipe_model_1.Recipe.findById(recipeId).session(session); // Ensure session is used for the query
         if (!recipe) {

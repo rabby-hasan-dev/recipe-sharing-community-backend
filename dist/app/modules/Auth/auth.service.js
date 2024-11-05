@@ -39,7 +39,7 @@ const signUpUserIntoDB = (file, payload) => __awaiter(void 0, void 0, void 0, fu
         role: newUser === null || newUser === void 0 ? void 0 : newUser.role,
         profilePicture: newUser === null || newUser === void 0 ? void 0 : newUser.profilePicture,
         status: newUser === null || newUser === void 0 ? void 0 : newUser.status,
-        phoneNumber: newUser === null || newUser === void 0 ? void 0 : newUser.phone
+        phoneNumber: newUser === null || newUser === void 0 ? void 0 : newUser.phone,
     };
     const accessToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
     const refreshToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expires_in);
@@ -76,7 +76,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         role: user === null || user === void 0 ? void 0 : user.role,
         profilePicture: user === null || user === void 0 ? void 0 : user.profilePicture,
         status: user === null || user === void 0 ? void 0 : user.status,
-        phoneNumber: user === null || user === void 0 ? void 0 : user.phone
+        phoneNumber: user === null || user === void 0 ? void 0 : user.phone,
     };
     const accessToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
     const refreshToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expires_in);
@@ -148,7 +148,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
         role: user === null || user === void 0 ? void 0 : user.role,
         profilePicture: user === null || user === void 0 ? void 0 : user.profilePicture,
         status: user === null || user === void 0 ? void 0 : user.status,
-        phoneNumber: user === null || user === void 0 ? void 0 : user.phone
+        phoneNumber: user === null || user === void 0 ? void 0 : user.phone,
     };
     const accessToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
     return {
@@ -179,7 +179,7 @@ const forgetPassword = (userEmail) => __awaiter(void 0, void 0, void 0, function
         role: user === null || user === void 0 ? void 0 : user.role,
         profilePicture: user === null || user === void 0 ? void 0 : user.profilePicture,
         status: user === null || user === void 0 ? void 0 : user.status,
-        phoneNumber: user === null || user === void 0 ? void 0 : user.phone
+        phoneNumber: user === null || user === void 0 ? void 0 : user.phone,
     };
     const resetToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, '10m');
     const resetUILink = `${config_1.default.reset_pass_ui_link}/reset-password?email=${user.email}&token=${resetToken} `;

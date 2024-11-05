@@ -25,6 +25,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
         token,
         config.jwt_access_secret as string,
       ) as JwtPayload;
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     } catch (err) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'Unatuhorized');
     }

@@ -1,7 +1,7 @@
 export const recipeSearchableFields = [
   'description',
   'title',
-  'ingredients',
-  'cookingTime',
-  'author',
+  // 'ingredients',
+  // 'cookingTime',
+  // 'author',
 ];

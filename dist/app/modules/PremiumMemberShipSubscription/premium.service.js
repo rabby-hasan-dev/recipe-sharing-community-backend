@@ -70,10 +70,10 @@ const paymentConfirmationService = (transactionId, status) => __awaiter(void 0, 
     session.startTransaction();
     try {
         // update subcription payment  status
-        yield premium_model_1.Subscription.findOneAndUpdate({ "paymentDetails.transactionId": transactionId }, { status: 'active' }, { new: true, session });
+        yield premium_model_1.Subscription.findOneAndUpdate({ 'paymentDetails.transactionId': transactionId }, { status: 'active' }, { new: true, session });
         //  Expiration date retirive from sunscription
         const expirationDate = yield premium_model_1.Subscription.findOne({
-            "paymentDetails.transactionId": transactionId
+            'paymentDetails.transactionId': transactionId,
         });
         // update user memberShip confirm  status
         yield user_model_1.User.findOneAndUpdate({ email: verifyResponse === null || verifyResponse === void 0 ? void 0 : verifyResponse.cus_email }, { isPremium: true, premiumExpiresAt: expirationDate === null || expirationDate === void 0 ? void 0 : expirationDate.endDate }, { new: true, session });
@@ -130,5 +130,5 @@ exports.subscriptionService = {
     createSubscriptionIntoDB,
     paymentConfirmationService,
     isSubscriptionActive,
-    getSubscriberMemberIntoDB
+    getSubscriberMemberIntoDB,
 };

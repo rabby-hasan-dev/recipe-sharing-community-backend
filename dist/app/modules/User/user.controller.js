@@ -74,5 +74,5 @@ exports.UserControllers = {
     getMyProfile,
     getSingleUser,
     getAllUsers,
-    isPremium
+    isPremium,
 };

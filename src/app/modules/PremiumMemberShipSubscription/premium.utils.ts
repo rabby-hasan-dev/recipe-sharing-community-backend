@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import config from '../../config';
 import { join } from 'path';
@@ -50,6 +53,7 @@ export const verifyPayment = async (tnxId: string) => {
     throw new Error('Payment validation failed!');
   }
 };
+
 
 export const renderPaymentSuccessTemplate = async (paymentData: any) => {
   const filePathSuccess = join(process.cwd(), 'views', 'paymentSuccess.ejs');

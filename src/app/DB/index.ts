@@ -18,6 +18,7 @@ const seedSuperAdmin = async () => {
 
   if (!isSuperAdminExits) {
     await User.create(superUser);
+    // eslint-disable-next-line no-console
     console.log('Super Admin is created');
   }
 };

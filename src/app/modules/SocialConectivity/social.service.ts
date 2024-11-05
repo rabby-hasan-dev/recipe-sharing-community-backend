@@ -75,6 +75,7 @@ const rateAndCalculateAverage = async (
       totalRatings,
       message: 'Rating submitted successfully!',
     };
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
@@ -96,6 +97,7 @@ const getRecipeRatingsFromDB = async (recipeId: string) => {
 const postRecipeCommentIntoDB = async (
   currentUserId: string,
   recipeId: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   comment: any,
 ) => {
   const userExists = await User.isUserExists(currentUserId);
@@ -132,7 +134,8 @@ const postRecipeCommentIntoDB = async (
 
     return savedComment;
 
-    // @ts-nocheck
+
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   } catch (err) {
     await session.abortTransaction();
     session.endSession();
@@ -153,6 +156,7 @@ const getRecipeCommentFromDB = async (recipeId: string) => {
 const editRecipeCommentFromDB = async (
   userId: string,
   commentId: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: any,
 ) => {
   const comment = await Comment.findOne({ _id: commentId, userId });
@@ -200,7 +204,8 @@ const deleteRecipeCommentFromDB = async (
     await session.commitTransaction();
     session.endSession();
     return deleteComment;
-    // @ts-nocheck
+
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
@@ -235,6 +240,7 @@ const toggleVote = async (
     ) {
       // Remove vote (unvote)
       await Vote.deleteOne({ user: userId, recipeId });
+      // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
       type === 'upvote' ? recipe.upVoteCount-- : recipe.downVoteCount--;
       await recipe.save();
       return { message: `${type} removed` };
@@ -255,6 +261,7 @@ const toggleVote = async (
       value: type === 'upvote' ? 1 : -1,
     });
     await vote.save();
+    // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
     type === 'upvote' ? recipe.upVoteCount++ : recipe.downVoteCount++;
     await recipe.save();
     return { message: `${type} added` };

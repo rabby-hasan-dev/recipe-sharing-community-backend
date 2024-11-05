@@ -12,7 +12,7 @@ const subscriptionSchema = new mongoose_1.Schema({
         type: String,
         enum: ['monthly', 'yearly'], // You can define more plans here
         required: true,
-        trim: true
+        trim: true,
     },
     status: {
         type: String,

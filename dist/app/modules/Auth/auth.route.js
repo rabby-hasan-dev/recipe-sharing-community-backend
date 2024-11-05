@@ -24,11 +24,7 @@ router.post('/signUp', multer_config_1.multerUpload.single('file'), (req, res, n
     next();
 }, (0, validateRequest_1.default)(user_validation_1.UserValidation.userValidationSchema), auth_controller_1.AuthControllers.SignUpUser);
 router.post('/change-password', (0, auth_1.default)(constant_1.USER_ROLE.superAdmin, constant_1.USER_ROLE.admin, constant_1.USER_ROLE.user), (0, validateRequest_1.default)(auth_validation_1.AuthValidation.changePasswordValidationSchema), auth_controller_1.AuthControllers.changePassword);
-router.post('/refresh-token', (req, res, next) => {
-    // console.log(typeof (req.cookies.refreshToken))
-    // console.log('check on middleware', req.cookies);
-    next();
-}, (0, validateRequest_1.default)(auth_validation_1.AuthValidation.refreshTokenValidationSchema), auth_controller_1.AuthControllers.refreshToken);
+router.post('/refresh-token', (0, validateRequest_1.default)(auth_validation_1.AuthValidation.refreshTokenValidationSchema), auth_controller_1.AuthControllers.refreshToken);
 router.post('/forget-password', (0, validateRequest_1.default)(auth_validation_1.AuthValidation.forgetPasswordValidationSchema), auth_controller_1.AuthControllers.forgetPassword);
 router.post('/reset-password', (0, validateRequest_1.default)(auth_validation_1.AuthValidation.forgetPasswordValidationSchema), auth_controller_1.AuthControllers.resetPassword);
 exports.AuthRoutes = router;

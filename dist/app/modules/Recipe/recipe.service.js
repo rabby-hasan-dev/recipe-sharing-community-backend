@@ -76,5 +76,5 @@ exports.RecipeServices = {
     getSingleRecipeFromDB,
     updateRecipeIntoDB,
     deleteRecipeFromDB,
-    getAllRecipeByAuthorFromDB
+    getAllRecipeByAuthorFromDB,
 };

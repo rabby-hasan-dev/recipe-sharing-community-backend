@@ -18,5 +18,6 @@ export interface IRecipe {
 }
 
 export interface RecipeModel extends Model<IRecipe> {
+  // eslint-disable-next-line no-unused-vars
   isRecipeExists(id: string): Promise<IRecipe | null>;
 }

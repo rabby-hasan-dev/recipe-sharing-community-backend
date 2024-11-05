@@ -81,5 +81,5 @@ exports.AdminServices = {
     deleteUserFromDB,
     blockUserIntoDB,
     publishRecipeIntoDB,
-    premiumUsersFromDB
+    premiumUsersFromDB,
 };

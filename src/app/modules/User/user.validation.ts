@@ -1,17 +1,6 @@
 import { z } from 'zod';
 
-const userNameSchema = z.object({
-  firstName: z
-    .string()
-    .min(1, 'First Name is required')
-    .max(20, 'Name cannot be more than 20 characters')
-    .trim(),
-  lastName: z
-    .string()
-    .min(1, 'Last Name is required')
-    .max(20, 'Name cannot be more than 20 characters')
-    .trim(),
-});
+
 
 const userUpdateNameSchema = z.object({
   firstName: z
