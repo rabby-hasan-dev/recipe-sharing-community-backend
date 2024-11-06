@@ -13,6 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.renderPaymentFailureTemplate = exports.renderPaymentSuccessTemplate = exports.verifyPayment = exports.initialPayment = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 const axios_1 = __importDefault(require("axios"));
 const config_1 = __importDefault(require("../../config"));
 const path_1 = require("path");

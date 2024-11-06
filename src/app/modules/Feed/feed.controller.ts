@@ -5,6 +5,7 @@ import httpStatus from 'http-status';
 import { FeedService } from './feed.service';
 
 const getAllPublicRecipes: RequestHandler = catchAsync(async (req, res) => {
+
   const result = await FeedService.getAllPublicRecipeFromDB(req.query);
 
   sendResponse(res, {
@@ -17,6 +18,7 @@ const getAllPublicRecipes: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const getAllPrimiumRecipes: RequestHandler = catchAsync(async (req, res) => {
+
   const result = await FeedService.getAllPrimiumRecipeFromDB(req.query);
 
   sendResponse(res, {

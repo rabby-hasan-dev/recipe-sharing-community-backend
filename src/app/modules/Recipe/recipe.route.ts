@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.user, USER_ROLE.admin),
+  auth(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
   multerUpload.fields([{ name: 'file' }]),
   parseBody,
   // validateRequest(recipeValidator.RecipeValidationSchema),
@@ -31,13 +31,13 @@ router.get(
 
 router.get(
   '/author/:userId',
-  auth(USER_ROLE.admin, USER_ROLE.user),
+  auth(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
   RecipeControllers.getAllRecipesByAuthor,
 );
 
 router.put(
   '/:recipeId',
-  auth(USER_ROLE.user, USER_ROLE.admin),
+  auth(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
   multerUpload.fields([{ name: 'file' }]),
   parseBody,
   validateRequest(recipeValidator.UpdatedRecipeValidationSchema),

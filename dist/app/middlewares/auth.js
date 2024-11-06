@@ -30,6 +30,7 @@ const auth = (...requiredRoles) => {
         let decoded;
         try {
             decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_access_secret);
+            // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
         }
         catch (err) {
             throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'Unatuhorized');

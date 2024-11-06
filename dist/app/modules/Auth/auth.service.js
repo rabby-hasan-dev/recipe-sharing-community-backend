@@ -34,6 +34,7 @@ const signUpUserIntoDB = (file, payload) => __awaiter(void 0, void 0, void 0, fu
     const jwtPayload = {
         userId: newUser === null || newUser === void 0 ? void 0 : newUser._id,
         name: newUser === null || newUser === void 0 ? void 0 : newUser.name,
+        isPremium: newUser === null || newUser === void 0 ? void 0 : newUser.isPremium,
         username: newUser === null || newUser === void 0 ? void 0 : newUser.username,
         email: newUser === null || newUser === void 0 ? void 0 : newUser.email,
         role: newUser === null || newUser === void 0 ? void 0 : newUser.role,
@@ -71,6 +72,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const jwtPayload = {
         userId: user === null || user === void 0 ? void 0 : user._id,
         name: user === null || user === void 0 ? void 0 : user.name,
+        isPremium: user === null || user === void 0 ? void 0 : user.isPremium,
         username: user.username,
         email: user === null || user === void 0 ? void 0 : user.email,
         role: user === null || user === void 0 ? void 0 : user.role,
@@ -142,6 +144,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const jwtPayload = {
         userId: user === null || user === void 0 ? void 0 : user._id,
+        isPremium: user === null || user === void 0 ? void 0 : user.isPremium,
         name: user === null || user === void 0 ? void 0 : user.name,
         username: user.username,
         email: user === null || user === void 0 ? void 0 : user.email,
@@ -174,6 +177,7 @@ const forgetPassword = (userEmail) => __awaiter(void 0, void 0, void 0, function
     const jwtPayload = {
         userId: user === null || user === void 0 ? void 0 : user._id,
         name: user === null || user === void 0 ? void 0 : user.name,
+        isPremium: user === null || user === void 0 ? void 0 : user.isPremium,
         username: user.username,
         email: user === null || user === void 0 ? void 0 : user.email,
         role: user === null || user === void 0 ? void 0 : user.role,

@@ -55,9 +55,10 @@ const updateUserDataIntoDB = (user, payload, file) => __awaiter(void 0, void 0, 
     }
     try {
         const result = yield user_model_1.User.findOneAndUpdate({ email: email }, modifiedUpdatedData, { new: true });
-        // return result;
+        return result;
     }
     catch (err) {
+        // eslint-disable-next-line no-console
         console.error('Update error:', err); // Catch and log any errors
     }
 });

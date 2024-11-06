@@ -47,10 +47,24 @@ const getSingleRecipeFromDB = async (id: string) => {
   return result;
 };
 
-const getAllRecipeByAuthorFromDB = async (id: string) => {
-  const result = await Recipe.find({ author: id, isDeleted: false }).populate(
+
+const getAllRecipeByAuthorFromDB = async (authorId: string) => {
+
+  if (!authorId) {
+    throw new Error("User ID is missing");
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(authorId)) {
+    throw new Error("Invalid User ID format");
+  }
+
+
+  const userId = new mongoose.Types.ObjectId(authorId);
+
+  const result = await Recipe.find({ author: userId, isDeleted: false }).populate(
     'author',
   );
+
   return result;
 };
 

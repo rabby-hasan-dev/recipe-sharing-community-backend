@@ -29,6 +29,7 @@ const seedSuperAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
     const isSuperAdminExits = yield user_model_1.User.findOne({ role: constant_1.USER_ROLE.superAdmin });
     if (!isSuperAdminExits) {
         yield user_model_1.User.create(superUser);
+        // eslint-disable-next-line no-console
         console.log('Super Admin is created');
     }
 });

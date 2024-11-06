@@ -20,7 +20,9 @@ const handleDuplicateError_1 = __importDefault(require("../errors/handleDuplicat
 const handleValidationError_1 = __importDefault(require("../errors/handleValidationError"));
 const handleZodError_1 = __importDefault(require("../errors/handleZodError"));
 const deleteImage_1 = require("../utils/deleteImage");
-const globalErrorHandler = (err, req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const globalErrorHandler = (err, req, res, 
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+next) => __awaiter(void 0, void 0, void 0, function* () {
     //setting default values
     let statusCode = 500;
     let message = 'Something went wrong!';

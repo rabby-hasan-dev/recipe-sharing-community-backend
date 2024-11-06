@@ -10,12 +10,12 @@ const router = express.Router();
 
 router.get(
   '/me',
-  auth(USER_ROLE.user, USER_ROLE.admin),
+  auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.superAdmin),
   UserControllers.getMyProfile,
 );
 router.put(
   '/me',
-  auth(USER_ROLE.user, USER_ROLE.admin),
+  auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.superAdmin),
   multerUpload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);

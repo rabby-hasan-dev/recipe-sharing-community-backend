@@ -50,7 +50,7 @@ const RecipeSchema = new Schema<IRecipe, RecipeModel>(
     },
     isPublished: {
       type: Boolean,
-      default: false, // Indicates if the recipe is published
+      default: true, // Indicates if the recipe is published
     },
     isDeleted: {
       type: Boolean,

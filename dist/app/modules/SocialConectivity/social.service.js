@@ -66,6 +66,7 @@ const rateAndCalculateAverage = (currentUserId, recipeId, ratingValue) => __awai
             totalRatings,
             message: 'Rating submitted successfully!',
         };
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     }
     catch (error) {
         yield session.abortTransaction();
@@ -80,7 +81,9 @@ const getRecipeRatingsFromDB = (recipeId) => __awaiter(void 0, void 0, void 0, f
     return ratings;
 });
 // -------------- Comment Recpe section ---------
-const postRecipeCommentIntoDB = (currentUserId, recipeId, comment) => __awaiter(void 0, void 0, void 0, function* () {
+const postRecipeCommentIntoDB = (currentUserId, recipeId, 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+comment) => __awaiter(void 0, void 0, void 0, function* () {
     const userExists = yield user_model_1.User.isUserExists(currentUserId);
     if (!userExists) {
         throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'User not found!');
@@ -103,7 +106,7 @@ const postRecipeCommentIntoDB = (currentUserId, recipeId, comment) => __awaiter(
         yield session.commitTransaction();
         session.endSession();
         return savedComment;
-        // @ts-nocheck
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     }
     catch (err) {
         yield session.abortTransaction();
@@ -117,7 +120,9 @@ const getRecipeCommentFromDB = (recipeId) => __awaiter(void 0, void 0, void 0, f
         .populate('recipeId')
         .sort({ createdAt: -1 });
 });
-const editRecipeCommentFromDB = (userId, commentId, content) => __awaiter(void 0, void 0, void 0, function* () {
+const editRecipeCommentFromDB = (userId, commentId, 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+content) => __awaiter(void 0, void 0, void 0, function* () {
     const comment = yield social_model_1.Comment.findOne({ _id: commentId, userId });
     if (!comment) {
         throw new Error('Comment not found or you are not authorized to edit this comment');
@@ -144,7 +149,7 @@ const deleteRecipeCommentFromDB = (recipeId, commentId) => __awaiter(void 0, voi
         yield session.commitTransaction();
         session.endSession();
         return deleteComment;
-        // @ts-nocheck
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     }
     catch (error) {
         yield session.abortTransaction();
@@ -167,6 +172,7 @@ const toggleVote = (recipeId, userId, type) => __awaiter(void 0, void 0, void 0,
             (type === 'downvote' && vote.value === -1)) {
             // Remove vote (unvote)
             yield social_model_1.Vote.deleteOne({ user: userId, recipeId });
+            // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
             type === 'upvote' ? recipe.upVoteCount-- : recipe.downVoteCount--;
             yield recipe.save();
             return { message: `${type} removed` };
@@ -189,6 +195,7 @@ const toggleVote = (recipeId, userId, type) => __awaiter(void 0, void 0, void 0,
             value: type === 'upvote' ? 1 : -1,
         });
         yield vote.save();
+        // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
         type === 'upvote' ? recipe.upVoteCount++ : recipe.downVoteCount++;
         yield recipe.save();
         return { message: `${type} added` };

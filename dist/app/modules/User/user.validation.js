@@ -2,18 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserValidation = void 0;
 const zod_1 = require("zod");
-const userNameSchema = zod_1.z.object({
-    firstName: zod_1.z
-        .string()
-        .min(1, 'First Name is required')
-        .max(20, 'Name cannot be more than 20 characters')
-        .trim(),
-    lastName: zod_1.z
-        .string()
-        .min(1, 'Last Name is required')
-        .max(20, 'Name cannot be more than 20 characters')
-        .trim(),
-});
 const userUpdateNameSchema = zod_1.z.object({
     firstName: zod_1.z
         .string()
